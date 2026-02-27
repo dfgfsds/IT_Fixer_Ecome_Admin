@@ -274,7 +274,7 @@ export default function Banner() {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["banners"] });
             setImages([]);
-            setErrorMessage(null); 
+            setErrorMessage(null);
             closeModal();
         },
         onError: (error: any) => {
@@ -679,7 +679,7 @@ export default function Banner() {
                                 type="button"
                                 onClick={handleDeleteConfirmed}
                                 disabled={deleteMutation.isLoading}
-                                className="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 disabled:opacity-50"
+                                className="px-4 py-2 bg-[#e2ba2b] text-white rounded-md text-sm font-medium hover:bg-[#a6d719] disabled:opacity-50"
                             >
                                 {deleteMutation.isLoading ? "Deleting..." : "Confirm Delete"}
                             </button>

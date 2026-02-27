@@ -40,7 +40,7 @@ const Reviews: React.FC = () => {
     const handleDelete = async (id: number) => {
         try {
             await axios.delete(`${baseUrl}/reviews/${id}/`); // 🔹 Replace with your DELETE API
-         fetchReviews(); 
+            fetchReviews();
         } catch (err) {
             console.error("Failed to delete review", err);
         }
@@ -94,7 +94,7 @@ const Reviews: React.FC = () => {
                                 </thead>
 
                                 <tbody className="divide-y divide-gray-200 bg-white">
-                                    {reviews.map((review:any, index:any) => (
+                                    {reviews.map((review: any, index: any) => (
                                         <tr key={review.product_id}>
                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                                                 {index + 1}
@@ -116,7 +116,7 @@ const Reviews: React.FC = () => {
                                             </td>
                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                                                 <div className="flex gap-2">
-                                                    {review.image_urls.map((url:any, i:number) => (
+                                                    {review.image_urls.map((url: any, i: number) => (
                                                         <img
                                                             key={i}
                                                             src={url}
@@ -128,7 +128,7 @@ const Reviews: React.FC = () => {
                                             </td>
                                             <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                                                 <div className="flex gap-2">
-                                                    {review.video_urls.map((url:any, i:number) => (
+                                                    {review.video_urls.map((url: any, i: number) => (
                                                         <video
                                                             key={i}
                                                             src={url}
@@ -141,7 +141,7 @@ const Reviews: React.FC = () => {
                                             <td className="whitespace-nowrap px-6 py-4 text-right text-sm">
                                                 <button
                                                     onClick={() => handleDelete(review.id)}
-                                                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                                                    className="bg-red-500 hover:bg-[#e2ba2b] text-white px-3 py-1 rounded"
                                                 >
                                                     Delete
                                                 </button>

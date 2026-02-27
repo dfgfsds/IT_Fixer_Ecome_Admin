@@ -37,7 +37,7 @@ function Blogs({ userId }: any) {
     <>
       <div className="flex justify-between my-4">
         <h3 className="text-lg font-medium text-gray-900">Blogs</h3>
-        <button className=' gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700'
+        <button className=' gap-2 bg-[#e2ba2b] text-white px-4 py-2 rounded-lg hover:bg-[#a6d719]'
           onClick={() => setBlogModal(!blogModal)}
         >
           Add Blogs
@@ -150,7 +150,7 @@ function Blogs({ userId }: any) {
                 {blog?.subtitle}
               </h3>
               {/* <p className="text-gray-600 mt-2 text-sm line-clamp-2">{blog?.description}</p> */}
-              <div dangerouslySetInnerHTML={{ __html: blog?.description?.slice(0,50) }} className=" quill-content" />
+              <div dangerouslySetInnerHTML={{ __html: blog?.description?.slice(0, 50) }} className=" quill-content" />
 
               <div className="flex items-center mt-4">
                 <img
@@ -199,7 +199,7 @@ function Blogs({ userId }: any) {
                 type="button"
                 onClick={confirmDelete}
                 disabled={loading}
-                className="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 gap-2 flex"
+                className="px-4 py-2 bg-[#e2ba2b] text-white rounded-md text-sm font-medium hover:bg-[#a6d719] gap-2 flex"
               >
                 Confirm Delete {loading ? (<Loader className='animate-spin' />) : ''}
               </button>

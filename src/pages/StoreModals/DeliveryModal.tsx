@@ -211,7 +211,7 @@ function DeliveryModal({ handleClose, vendorSiteDetails, deliveryEditData }: any
                     },
                     pricing_data: data?.pricing_data?.map((item: any) => ({
                         ...item,
-                        id:item?.id,
+                        id: item?.id,
                         vendor: `${id}`,
                         created_by: `vendor${id}`
                     }))
@@ -219,22 +219,22 @@ function DeliveryModal({ handleClose, vendorSiteDetails, deliveryEditData }: any
                 };
                 const Update = await putVendorWithSiteDetailsApi(
                     `${vendorSiteDetails?.vendor_site_details?.id}/`,
-                    {delivery_partner:'dtdc', updated_by: 'vendor'}
+                    { delivery_partner: 'dtdc', updated_by: 'vendor' }
                 );
-                if(deliveryEditData?.delivery_partner_dtdc_details?.customer_code || deliveryEditData?.vendor_site_details?.own_cod_delivery_charge){
-                    const response = await updateDtdcCreateApi(`${id}/`,{...payload , updated_by:`vendor${id}`});
+                if (deliveryEditData?.delivery_partner_dtdc_details?.customer_code || deliveryEditData?.vendor_site_details?.own_cod_delivery_charge) {
+                    const response = await updateDtdcCreateApi(`${id}/`, { ...payload, updated_by: `vendor${id}` });
                     if (response) {
                         queryClient.invalidateQueries(["getVendorWithSiteDetailsData"] as InvalidateQueryFilters);
                         handleClose();
                     }
-                }else{
-                    const response = await postDtdcCreateApi(``,payload);
+                } else {
+                    const response = await postDtdcCreateApi(``, payload);
                     if (response) {
                         queryClient.invalidateQueries(["getVendorWithSiteDetailsData"] as InvalidateQueryFilters);
                         handleClose();
                     }
                 }
-                
+
 
             }
 
@@ -447,7 +447,7 @@ function DeliveryModal({ handleClose, vendorSiteDetails, deliveryEditData }: any
                                             )}
                                         </div>
                                     </div>
-                                    <button type="button" onClick={() => remove(index)} className="text-white bg-red-600 rounded-md text-sm ml-auto p-1 m-2"><X /></button>
+                                    <button type="button" onClick={() => remove(index)} className="text-white bg-[#e2ba2b] rounded-md text-sm ml-auto p-1 m-2"><X /></button>
 
                                 </>
                             ))}
@@ -482,7 +482,7 @@ function DeliveryModal({ handleClose, vendorSiteDetails, deliveryEditData }: any
                         >Cancel</button>
                         <button
                             type="submit"
-                            className="bg-red-600 text-white px-4 py-2 rounded"
+                            className="bg-[#e2ba2b] text-white px-4 py-2 rounded"
                             disabled={loading}
                         >{loading ? (<div className="flex justify-between gap-1">Loading... <Loader /></div>) : 'Submit'}  </button>
                     </div>

@@ -326,7 +326,7 @@ export default function Testimonials() {
               <button
                 type="button"
                 onClick={handleDeleteConfirmed}
-                className="px-4 py-2 bg-red-600 text-white rounded"
+                className="px-4 py-2 bg-[#e2ba2b] text-white rounded"
               >
                 Delete
               </button>

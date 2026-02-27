@@ -19,7 +19,7 @@ export default function Login() {
     formState: { errors },
   } = useForm();
 
-    useEffect(() => {
+  useEffect(() => {
     const userId = localStorage.getItem('userId');
     const mainVendor = localStorage.getItem('mainVendor');
     if (userId && mainVendor) {
@@ -31,11 +31,11 @@ export default function Login() {
     setLoading(true);
     setError('');
     try {
-      const updateApi = await postLoginInAPi({...data,mainmultivendor_id:53});
+      const updateApi = await postLoginInAPi({ ...data, mainmultivendor_id: 53 });
       if (updateApi?.data) {
         localStorage.setItem('userId', updateApi?.data?.user_id);
         localStorage.setItem('mainVendor', updateApi?.data?.main_multivendor_id);
-      navigate('/store/157/products');
+        navigate('/store/157/products');
         // navigate('/dashboard');
       } else {
         throw new Error(updateApi?.data?.message || 'Unexpected response');
@@ -55,20 +55,20 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-12">
       <div className="w-full max-w-md space-y-8 p-8 bg-white rounded-2xl shadow-lg">
-      <div className='flex justify-center '>
-          <img src={Logo} className='w-full h-52'/>
+        <div className='flex justify-center '>
+          <img src={Logo} className='w-[150px] h-[34px]' />
         </div>
-         <div>
-           <h2 className="mt-0 text-center text-3xl font-extrabold text-gray-900">
-             Sign in to your account
+        <div>
+          <h2 className="mt-0 text-center text-3xl font-extrabold text-gray-900">
+            Sign in to your account
           </h2>
-           {/* <p className="mt-2 text-center text-sm text-gray-600">
+          {/* <p className="mt-2 text-center text-sm text-gray-600">
              Or{' '}
              <Link to="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
                create a new account
             </Link>
            </p> */}
-         </div>
+        </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {(errors.email || errors.password) && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-md text-sm">

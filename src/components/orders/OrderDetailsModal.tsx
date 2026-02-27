@@ -265,7 +265,7 @@ export default function OrderDetailsModal({ order, onClose, onUpdateStatus }: Or
                             <div className="mt-4">
                               {(data?.data?.status !== 'Cancelled/Refunded') && (
                                 <button
-                                  className='bg-red-500 p-2 text-white rounded-md hover:bg-red-600'
+                                  className='bg-red-500 p-2 text-white rounded-md hover:bg-[#e2ba2b]'
                                   onClick={() => setShowRefundForm(!showRefundForm)}
                                 >
                                   Refund
@@ -290,7 +290,7 @@ export default function OrderDetailsModal({ order, onClose, onUpdateStatus }: Or
                         />
                         <div className="mt-1 flex justify-end gap-2">
                           <button
-                            className='bg-red-500 p-2 text-white rounded-md hover:bg-red-600' onClick={() => setShowRefundForm(false)}>Cancel</button>
+                            className='bg-red-500 p-2 text-white rounded-md hover:bg-[#e2ba2b]' onClick={() => setShowRefundForm(false)}>Cancel</button>
                           <Button onClick={handleRefundSubmit}>Submit</Button>
                         </div>
                       </div>

@@ -25,15 +25,15 @@ function Coupons({ userId }: any) {
     const confirmDelete = async () => {
         console.log(deleteData)
         if (deleteData) {
-          setLoading(true)
-          const response = await deleteCouponApi(deleteData?.id, { deleted_by: `vendor${id}` });
-          if (response) {
-            queryClient.invalidateQueries(['getCouponData'] as InvalidateQueryFilters);
-            setDeleteModal(false);
-            setLoading(false)
-          }
+            setLoading(true)
+            const response = await deleteCouponApi(deleteData?.id, { deleted_by: `vendor${id}` });
+            if (response) {
+                queryClient.invalidateQueries(['getCouponData'] as InvalidateQueryFilters);
+                setDeleteModal(false);
+                setLoading(false)
+            }
         }
-      };
+    };
 
     return (
         <div className="border-t pt-6">
@@ -50,7 +50,7 @@ function Coupons({ userId }: any) {
 
                         <div className="absolute top-3 right-3 flex gap-2">
                             <button
-                                className="p-2 rounded-full bg-yellow-100 hover:bg-red-700 transition"
+                                className="p-2 rounded-full bg-yellow-100 hover:bg-[#a6d719] transition"
                                 title="Edit Coupon"
                                 onClick={() => { setCouponModal(!couponModal), setEditData(coupon) }}
                             >
@@ -152,7 +152,7 @@ function Coupons({ userId }: any) {
                                 type="button"
                                 onClick={confirmDelete}
                                 disabled={loading}
-                                className="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 gap-2 flex"
+                                className="px-4 py-2 bg-[#e2ba2b] text-white rounded-md text-sm font-medium hover:bg-[#a6d719] gap-2 flex"
                             >
                                 Confirm Delete {loading ? (<Loader className='animate-spin' />) : ''}
                             </button>

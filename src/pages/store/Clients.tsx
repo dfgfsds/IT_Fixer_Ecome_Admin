@@ -28,7 +28,7 @@ export default function Clients() {
   const [editingClient, setEditingClient] = useState<Client | null>(null);
   const [deleteModal, setDeleteModal] = useState(false);
   const [deleteClient, setDeleteClient] = useState<Client | null>(null);
-    const { id } = useParams<{ id: any }>();
+  const { id } = useParams<{ id: any }>();
 
   const [formData, setFormData] = useState<ClientFormState>({
     title: "",
@@ -238,7 +238,7 @@ export default function Clients() {
               <button type="button" onClick={closeDeleteConfirm} className="px-4 py-2 border rounded">
                 Cancel
               </button>
-              <button type="button" onClick={handleDeleteConfirmed} className="px-4 py-2 bg-red-600 text-white rounded">
+              <button type="button" onClick={handleDeleteConfirmed} className="px-4 py-2 bg-[#e2ba2b] text-white rounded">
                 Delete
               </button>
             </div>

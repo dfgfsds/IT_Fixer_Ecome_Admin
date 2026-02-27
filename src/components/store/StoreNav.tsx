@@ -3,7 +3,7 @@ import { Settings, Package, ShoppingCart, Users, User, FolderTree, Megaphone, Ba
 
 export default function StoreNav() {
   const { id } = useParams<{ id: string }>();
-  
+
   const links = [
     { to: `/store/${id}/products`, icon: Package, label: 'Products' },
     { to: `/store/${id}/categories`, icon: FolderTree, label: 'Categories' },
@@ -32,10 +32,9 @@ export default function StoreNav() {
                 key={to}
                 to={to}
                 className={({ isActive }) =>
-                  `inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 ${
-                    isActive
-                      ? 'border-red-600  text-red-600'
-                      : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                  `inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 ${isActive
+                    ? 'border-[#e2ba2b]  text-[#e2ba2b]'
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
                   }`
                 }
               >
