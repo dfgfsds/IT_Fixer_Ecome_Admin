@@ -314,7 +314,7 @@ export function AddressForm({ openModal, handleClose, editData, setEditData, pic
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700-300 disabled:opacity-50 flex gap-2"
+              className="px-4 py-2 bg-[#e2ba2b] text-white rounded-md text-sm font-medium hover:bg-[#a6d719]-300 disabled:opacity-50 flex gap-2"
             >
               Save {loading ? (<Loader className="animate-spin" size={20} />) : ''}
             </button>

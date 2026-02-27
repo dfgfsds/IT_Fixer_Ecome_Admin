@@ -407,8 +407,10 @@ export default function Categories() {
 
 
                 <div className="mt-5 sm:mt-6 flex justify-end space-x-2">
-                  <Button type="button" variant="outline" onClick={() => { reset(), setSelectedCategory(''), 
-                    (''), setIsModalOpen(false), setImages([]) }}>
+                  <Button type="button" variant="outline" onClick={() => {
+                    reset(), setSelectedCategory(''),
+                      (''), setIsModalOpen(false), setImages([])
+                  }}>
                     Cancel
                   </Button>
                   <Button type="submit" disabled={loading}>
@@ -440,7 +442,7 @@ export default function Categories() {
               <button
                 type="button"
                 onClick={handleDelete}
-                className="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700"
+                className="px-4 py-2 bg-[#e2ba2b] text-white rounded-md text-sm font-medium hover:bg-[#a6d719]"
               >
                 Confirm Delete
               </button>

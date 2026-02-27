@@ -149,7 +149,7 @@ export default function StoreSettings() {
     // updateVendorOtherDetailsApi
     if (siteEditKey === 'support_email' || siteEditKey === 'support_contact') {
       try {
-        const response = await updateVendorOtherDetailsApi(`${vendorSiteDetails?.vendor_other_details?.id}`, { ...payload});
+        const response = await updateVendorOtherDetailsApi(`${vendorSiteDetails?.vendor_other_details?.id}`, { ...payload });
         if (response) {
           setOpenSiteModal(false);
           queryClient.invalidateQueries(["getVendorWithSiteDetailsData"] as InvalidateQueryFilters);
@@ -300,7 +300,7 @@ export default function StoreSettings() {
             <button
               // onClick={handleAddNew}
               onClick={() => setOpenMoadl(!openModal)}
-              className="flex gap-2 mt-5  px-4 py-2 bg-red-600  text-white rounded-lg hover:bg-red-700 "
+              className="flex gap-2 mt-5  px-4 py-2 bg-[#e2ba2b] text-white rounded-lg hover:bg-[#a6d719] "
             >
               <Plus className="h-5 w-5" />
               Add New Address
@@ -314,7 +314,7 @@ export default function StoreSettings() {
                   <div
                     key={address.id}
                     className={`flex items-start justify-between p-4 bg-white rounded-lg shadow-sm  ${address?.is_primary === false && 'border-green-600 border-2'}`}
-                  onClick={() => selectAdress(address.id)}
+                    onClick={() => selectAdress(address.id)}
                   >
                     <div className="flex-1">
                       <div className='flex gap-1'>
@@ -470,7 +470,7 @@ export default function StoreSettings() {
               <h3 className="text-lg font-medium text-gray-900">Delivery Partner Details</h3>
               {(vendorSiteDetails?.vendor_site_details?.delivery_partner || vendorSiteDetails?.vendor_site_details?.delivery_partner_client_id) && (
                 <button
-                  className='bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 flex items-center gap-2'
+                  className='bg-[#e2ba2b] text-white px-4 py-2 rounded-lg hover:bg-[#a6d719] flex items-center gap-2'
                   onClick={() => {
                     setDeliveryModal(!deliveryModal);
                     setDevliveryEditData(vendorSiteDetails);
@@ -622,7 +622,7 @@ export default function StoreSettings() {
                 </>
               ) : (
                 <div className='flex justify-center '>
-                  <button className=' gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700'
+                  <button className=' gap-2 bg-[#e2ba2b] text-white px-4 py-2 rounded-lg hover:bg-[#a6d719]'
                     onClick={() => setDeliveryModal(!deliveryModal)}
                   >
                     Add Delivery Partner
@@ -762,7 +762,7 @@ export default function StoreSettings() {
               </div>
             </div>
           </div>
-            <SocialMedia />
+          <SocialMedia />
         </div>
       </div>
 
@@ -828,7 +828,7 @@ export default function StoreSettings() {
                   </button>
 
                   <button
-                    className="bg-red-600 hover:bg-red-700-300 text-white px-4 py-2 rounded"
+                    className="bg-[#e2ba2b] hover:bg-[#a6d719]-300 text-white px-4 py-2 rounded"
                     onClick={handleSubmitSiteChange}
                   >
                     Save
@@ -866,7 +866,7 @@ export default function StoreSettings() {
               </button>
 
               <button
-                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                className="bg-[#e2ba2b] text-white px-4 py-2 rounded hover:bg-[#a6d719]"
                 onClick={updateSitePolices}
               >
                 Save
@@ -878,7 +878,7 @@ export default function StoreSettings() {
 
       <AddressForm
         openModal={openModal}
-        handleClose={() => {setOpenMoadl(!openModal), setEditData("")}}
+        handleClose={() => { setOpenMoadl(!openModal), setEditData("") }}
         editData={editData}
         setEditData={setEditData}
         pickupValue={vendorSiteDetails?.vendor_site_details?.delivery_partner}
@@ -915,7 +915,7 @@ export default function StoreSettings() {
                 type="button"
                 onClick={confirmDelete}
                 disabled={loading}
-                className="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 gap-2 flex"
+                className="px-4 py-2 bg-[#e2ba2b] text-white rounded-md text-sm font-medium hover:bg-[#a6d719] gap-2 flex"
               >
                 Confirm Delete {loading ? (<Loader className='animate-spin' />) : ''}
               </button>

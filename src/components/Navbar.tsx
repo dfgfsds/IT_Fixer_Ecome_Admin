@@ -1,11 +1,11 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import {  ArrowLeft, Store, UserCircle } from 'lucide-react';
+import { ArrowLeft, Store, UserCircle } from 'lucide-react';
 import Logo from '../assets/image/Logo.png'
 
 export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
-const userId=localStorage.getItem('userId');
+  const userId = localStorage.getItem('userId');
   const handleSignOut = async () => {
     // await signOut();
     localStorage.clear();
@@ -15,14 +15,14 @@ const userId=localStorage.getItem('userId');
   if (location.pathname === '/') {
     return null;
   }
-  
+
   return (
     <nav className="bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
-            <div  className="flex items-center">
-              <img  src={Logo}  className="h-16 w-auto"/>
+            <div className="flex items-center">
+              <img src={Logo} className="h-[34px] w-[150px]" />
             </div>
           </div>
 
@@ -51,7 +51,7 @@ const userId=localStorage.getItem('userId');
                 >
                   Login
                 </Link>
-              
+
               </>
             )}
           </div>

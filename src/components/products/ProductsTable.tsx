@@ -51,18 +51,18 @@ export default function ProductsTable({ products, onEdit, onView, isLoading }: P
     const newStatus = product?.status === true ? false : true;
     console.log(newStatus)
     try {
-        const updateApi = await productStatusUpdateApi(`${product?.id}`, {
-          status:newStatus,
-          updated_by:'vendor'
-        });
-        if (updateApi) {
-          queryClient.invalidateQueries(['getProductData'] as InvalidateQueryFilters);
-        }
-    } catch (error:any) {
+      const updateApi = await productStatusUpdateApi(`${product?.id}`, {
+        status: newStatus,
+        updated_by: 'vendor'
+      });
+      if (updateApi) {
+        queryClient.invalidateQueries(['getProductData'] as InvalidateQueryFilters);
+      }
+    } catch (error: any) {
       toast.error(error?.response?.data?.error || "Something went wrong. Please try again.!");
     }
   };
-  
+
 
   return (
     <>
@@ -145,10 +145,10 @@ export default function ProductsTable({ products, onEdit, onView, isLoading }: P
                                   type="checkbox"
                                   className="sr-only peer"
                                   checked={product?.status === true}
-                                onChange={() => onToggleStatus(product)}
+                                  onChange={() => onToggleStatus(product)}
                                 />
                                 <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-500 rounded-full peer peer-checked:bg-green-500 relative">
-                                  <span className={`absolute ${product?.status === true ? "right-1":"left-1"} top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-5`}></span>
+                                  <span className={`absolute ${product?.status === true ? "right-1" : "left-1"} top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-5`}></span>
                                 </div>
                               </label>
                             </td>
@@ -212,7 +212,7 @@ export default function ProductsTable({ products, onEdit, onView, isLoading }: P
               <button
                 type="button"
                 onClick={handleDelete}
-                className="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700"
+                className="px-4 py-2 bg-[#e2ba2b] text-white rounded-md text-sm font-medium hover:bg-[#a6d719]"
               >
                 Confirm Delete
               </button>
