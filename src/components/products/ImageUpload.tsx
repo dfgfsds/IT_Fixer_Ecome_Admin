@@ -13,7 +13,7 @@ interface ImageUploadProps {
   onChange: (images: ProductImage[]) => void;
   multiple?: boolean;
   label?: string;
-  required?:any;
+  required?: any;
 }
 
 export default function ImageUpload({
@@ -79,7 +79,7 @@ export default function ImageUpload({
     const newImages = [...(images || [])];
     // instead of filter, keep index but set empty
     newImages.splice(index, 1);
-  
+
     // reset primary if removed one was primary
     if ((images || [])[index]?.isPrimary) {
       const firstValid = newImages.find((img) => img && img.url);
@@ -90,7 +90,7 @@ export default function ImageUpload({
     onChange(newImages);
   };
 
-  
+
   const setPrimaryImage = (index: number) => {
     const newImages = (images || []).map((img, i) => ({
       ...img,
@@ -105,17 +105,16 @@ export default function ImageUpload({
       </label>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
-        {(images || [])?.map((image:any, index) => (
+        {(images || [])?.map((image: any, index) => (
           <div key={index} className="relative group">
             <img
-              src={image?.url ? image?.url :image}
+              src={image?.url ? image?.url : image}
               alt={image?.alt}
-              className={`h-32 w-full object-cover rounded-lg ${
-                image.isPrimary ? 'ring-2 ring-indigo-500' : ''
-              }`}
+              className={`h-32 w-full object-cover rounded-lg ${image.isPrimary ? 'ring-2 ring-indigo-500' : ''
+                }`}
             />
             <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center space-x-2">
-              {!image.isPrimary && (
+              {/* {!image.isPrimary && (
                 <button
                   type="button"
                   onClick={() => setPrimaryImage(index)}
@@ -123,7 +122,7 @@ export default function ImageUpload({
                 >
                   Set as primary
                 </button>
-              )}
+              )} */}
               <button
                 type="button"
                 onClick={() => removeImage(index)}
