@@ -49,16 +49,16 @@ function UpadteSiteDetails({ openModal, handleClose }: any) {
     }
   };
   return (
-    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
+    <div className="fixed inset-0 z-50 bg-gray-950/50 backdrop-blur-xs flex justify-center items-center p-4 overflow-y-auto">
       <div
-        className="bg-white p-6 rounded-lg shadow-lg w-auto"
+        className="bg-white p-6 rounded-2xl shadow-xl max-w-lg w-full border border-gray-100 animate-in fade-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex justify-between">
-          <h2 className="text-xl font-semibold mb-4">Add Your Address</h2>
-          <span onClick={handleClose} className="cursor-pointer">
-            <X />
-          </span>
+        <div className="flex justify-between items-center pb-3 mb-4 border-b border-gray-100">
+          <h2 className="text-xl font-bold text-gray-900">Add Your Address</h2>
+          <button type="button" onClick={handleClose} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         {/* <div className="max-w-2xl mx-auto p-6 bg-white shadow rounded mt-10">

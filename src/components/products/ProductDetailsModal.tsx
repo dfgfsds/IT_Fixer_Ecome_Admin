@@ -84,12 +84,12 @@ export default function ProductDetailsModal({ product, onClose, onEdit }: Produc
   }
 
   return (
-    <div className="fixed inset-0 z-10 overflow-y-auto">
-      <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-        <div className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-          <div className="absolute right-0 top-0 pr-4 pt-4">
-            <button onClick={onClose} className="text-gray-400 hover:text-gray-500">
-              <X className="h-6 w-6" />
+    <div>
+      <div className="fixed inset-0 z-50 bg-gray-950/50 backdrop-blur-xs flex justify-center items-center p-4 overflow-y-auto">
+        <div className="relative bg-white rounded-2xl shadow-xl max-w-xl w-full p-6 my-8 border border-gray-100 max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
+          <div className="absolute right-4 top-4 z-10">
+            <button onClick={onClose} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+              <X className="h-5 w-5" />
             </button>
           </div>
 
@@ -250,35 +250,37 @@ export default function ProductDetailsModal({ product, onClose, onEdit }: Produc
         </div>
       </div>
 
-      {confirmData && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg p-6 shadow-lg w-96">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">
-              Confirm Delete
-            </h2>
-            <p className="text-sm text-gray-600 mb-6">
-              Are you sure you want to delete this {confirmData.type}?
-              This action cannot be undone.
-            </p>
+      {
+        confirmData && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white rounded-lg p-6 shadow-lg w-96">
+              <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                Confirm Delete
+              </h2>
+              <p className="text-sm text-gray-600 mb-6">
+                Are you sure you want to delete this {confirmData.type}?
+                This action cannot be undone.
+              </p>
 
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => setConfirmData(null)}
-                className="px-4 py-2 rounded border border-gray-300 text-gray-700 hover:bg-gray-100"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleConfirmDelete}
-                className="px-4 py-2 rounded bg-[#e2ba2b] text-white hover:bg-[#a6d719]"
-              >
-                Delete
-              </button>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setConfirmData(null)}
+                  className="px-4 py-2 rounded border border-gray-300 text-gray-700 hover:bg-gray-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleConfirmDelete}
+                  className="px-4 py-2 rounded bg-[#e2ba2b] text-white hover:bg-[#a6d719]"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
-    </div>
+    </div >
   );
 }

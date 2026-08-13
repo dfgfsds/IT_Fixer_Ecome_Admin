@@ -354,6 +354,86 @@ export const updateVendorOtherDetailsApi = async (query: any,payload:any) => {
   );
 };
 
+// PC BUILDER ATTRIBUTES APIS
+export const getAttributesApi = async (query: string = '') => {
+  const formattedQuery = query ? (query.startsWith('?') || query.startsWith('/') ? query : `?${query}`) : '';
+  return axios.get(`${ApiUrls.attributes}${formattedQuery}`);
+};
+
+export const postAttributeCreateApi = async (payload: any) => {
+  return axios.post(`${ApiUrls.attributes}`, payload);
+};
+
+export const updateAttributeApi = async (id: string, payload: any) => {
+  const formattedId = id.endsWith('/') ? id : `${id}/`;
+  return axios.put(`${ApiUrls.attributes}${formattedId}`, payload);
+};
+
+export const deleteAttributeApi = async (id: string) => {
+  const formattedId = id.endsWith('/') ? id : `${id}/`;
+  return axios.delete(`${ApiUrls.attributes}${formattedId}`);
+};
+
+// PC BUILDER CATEGORY ATTRIBUTES APIS
+export const getCategoryAttributesApi = async (query: string = '') => {
+  const formattedQuery = query ? (query.startsWith('?') || query.startsWith('/') ? query : `?${query}`) : '';
+  return axios.get(`${ApiUrls.categoryAttributes}${formattedQuery}`);
+};
+
+export const postCategoryAttributeCreateApi = async (payload: any) => {
+  return axios.post(`${ApiUrls.categoryAttributes}`, payload);
+};
+
+export const updateCategoryAttributeApi = async (id: string, payload: any) => {
+  const formattedId = id.endsWith('/') ? id : `${id}/`;
+  return axios.put(`${ApiUrls.categoryAttributes}${formattedId}`, payload);
+};
+
+export const deleteCategoryAttributeApi = async (id: string) => {
+  const formattedId = id.endsWith('/') ? id : `${id}/`;
+  return axios.delete(`${ApiUrls.categoryAttributes}${formattedId}`);
+};
+
+// PC BUILDER COMPONENTS APIS
+export const getPcComponentsApi = async (query: string = '') => {
+  const formattedQuery = query ? (query.startsWith('?') || query.startsWith('/') ? query : `?${query}`) : '';
+  return axios.get(`${ApiUrls.pcComponents}${formattedQuery}`);
+};
+
+export const postPcComponentCreateApi = async (payload: any) => {
+  return axios.post(`${ApiUrls.pcComponents}`, payload);
+};
+
+export const updatePcComponentApi = async (id: string, payload: any) => {
+  const formattedId = id.endsWith('/') ? id : `${id}/`;
+  return axios.put(`${ApiUrls.pcComponents}${formattedId}`, payload);
+};
+
+export const deletePcComponentApi = async (id: string) => {
+  const formattedId = id.endsWith('/') ? id : `${id}/`;
+  return axios.delete(`${ApiUrls.pcComponents}${formattedId}`);
+};
+
+// PC BUILDER CATEGORIES APIS
+export const getPcCategoriesApi = async (query: string = '') => {
+  const formattedQuery = query ? (query.startsWith('?') || query.startsWith('/') ? query : `?${query}`) : '';
+  return axios.get(`${ApiUrls.pcCategories}${formattedQuery}`);
+};
+
+export const postPcCategoryCreateApi = async (payload: any) => {
+  return axios.post(`${ApiUrls.pcCategories}`, payload);
+};
+
+export const updatePcCategoryApi = async (id: string, payload: any) => {
+  const formattedId = id.endsWith('/') ? id : `${id}/`;
+  return axios.put(`${ApiUrls.pcCategories}${formattedId}`, payload);
+};
+
+export const deletePcCategoryApi = async (id: string) => {
+  const formattedId = id.endsWith('/') ? id : `${id}/`;
+  return axios.delete(`${ApiUrls.pcCategories}${formattedId}`);
+};
+
 
 
 

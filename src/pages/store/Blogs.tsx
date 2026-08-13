@@ -18,7 +18,7 @@ function BlogsMain(props: Props) {
     const { } = props
 
     return (
-     <div className="w-full max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-6">
+      <div className="max-w-7xl mx-auto space-y-6">
             <Blogs userId={vendorSiteDetails?.vendor?.user} />
         </div>
     )

@@ -456,22 +456,23 @@ console.log(payload)
   };
 
   return (
-    <div className="fixed inset-0 z-10 overflow-y-auto">
-      <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-        <div className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl sm:p-6">
-          <div className="absolute right-0 top-0 pr-4 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="rounded-md bg-white text-gray-400 hover:text-gray-500"
-            >
-              <X className="h-6 w-6" />
-            </button>
+    <div className="fixed inset-0 z-50 bg-gray-950/50 backdrop-blur-xs flex justify-center items-center p-4 overflow-y-auto">
+      <div className="relative bg-white rounded-2xl shadow-xl max-w-3xl w-full p-6 my-8 border border-gray-100 max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
+        <div className="absolute right-4 top-4 z-10">
+          <button
+            type="button"
+            onClick={onClose}
+            className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="pb-3 border-b border-gray-100">
+            <h1 className="text-xl font-bold text-gray-900">{productForm ? 'Edit Product' : 'Create Product'}</h1>
+            <p className="text-xs text-gray-500 mt-0.5">Fill in product details, pricing, variants, and stock information</p>
           </div>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-4xl mx-auto">
-            {/* {JSON.stringify(errors)} */}
-            <h1 className='font-bold'>{productForm ? 'Edit Products' : 'Products Create'}</h1>
-            <div className='grid grid-cols-1 gap-2'>
+          <div className="grid grid-cols-1 gap-4">
 
               <div className='col-span-6 lg:col-span-6'>
                 <Input label="Name" required {...register('name', { required: true })} />
@@ -893,14 +894,17 @@ console.log(payload)
             {errorMessage && (
               <p className="text-red-500 mt-2">{errorMessage}</p>
             )}
-            <div className="flex justify-end gap-3">
-              <Button className='flex gap-2' type="submit" disabled={isLoadings}>{productForm ? 'Edit Product' : 'Create Product'}
+            <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+              <Button type="button" variant="outline" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button className='flex gap-2' type="submit" disabled={isLoadings}>
+                {productForm ? 'Edit Product' : 'Create Product'}
                 {isLoadings && (<Loader2 className='mt-auto mb-auto animate-spin' />)}
               </Button>
             </div>
           </form>
         </div>
       </div>
-    </div>
   );
 }
