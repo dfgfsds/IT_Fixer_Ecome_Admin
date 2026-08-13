@@ -1,5 +1,3 @@
-import { ProductImage } from './product';
-
 export interface ProductImage {
   url: string;
   alt: string;

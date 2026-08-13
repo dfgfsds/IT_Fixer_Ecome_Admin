@@ -3,7 +3,10 @@ import BlogModal from "./BlogModal";
 import { deleteBlogsApi, getBlogsApi } from "../../Api-Service/Apis";
 import { InvalidateQueryFilters, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { FileEdit, Loader, Trash2 } from "lucide-react";
+import { FileEdit, Loader2, Plus, Trash2, BookOpen } from "lucide-react";
+import Button from "../../components/Button";
+import EmptyBox from "../../assets/image/empty-box.png";
+import { toast } from "react-toastify";
 
 function Blogs({ userId }: any) {
   const [blogModal, setBlogModal] = useState(false);
@@ -17,181 +20,170 @@ function Blogs({ userId }: any) {
   const getBlogsData = useQuery({
     queryKey: ["getBlogsData", id],
     queryFn: () => getBlogsApi(`?vendor_id=${id}`),
-  })
+  });
 
   const blogs = getBlogsData?.data?.data?.blogs;
 
   const confirmDelete = async () => {
-    console.log(deleteData)
     if (deleteData) {
-      setLoading(true)
-      const response = await deleteBlogsApi(`${deleteData?.id}`);
-      if (response) {
-        queryClient.invalidateQueries(['getBlogsData'] as InvalidateQueryFilters);
-        setDeleteModal(false);
-        setLoading(false)
+      setLoading(true);
+      try {
+        const response = await deleteBlogsApi(`${deleteData?.id}`);
+        if (response) {
+          queryClient.invalidateQueries(['getBlogsData'] as InvalidateQueryFilters);
+          toast.success("Blog deleted successfully!");
+          setDeleteModal(false);
+          setDeleteData('');
+        }
+      } catch (err: any) {
+        toast.error("Failed to delete blog. Try again.");
+      } finally {
+        setLoading(false);
       }
     }
   };
+
   return (
-    <>
-      <div className="flex justify-between my-4">
-        <h3 className="text-lg font-medium text-gray-900">Blogs</h3>
-        <button className=' gap-2 bg-[#e2ba2b] text-white px-4 py-2 rounded-lg hover:bg-[#a6d719]'
-          onClick={() => setBlogModal(!blogModal)}
-        >
-          Add Blogs
-        </button>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="sm:flex sm:items-center sm:justify-between bg-white p-6 rounded-2xl border border-gray-200/80 shadow-2xs">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Blogs</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            Publish and manage blog posts for your store
+          </p>
+        </div>
+        <div className="mt-4 sm:mt-0 flex items-center gap-3">
+          <div className="flex items-center gap-2 bg-amber-50 text-amber-800 px-3.5 py-1.5 rounded-full text-xs font-semibold border border-amber-200/60">
+            <BookOpen className="w-4 h-4 text-[#e2ba2b]" />
+            <span>{blogs?.length || 0} Blogs</span>
+          </div>
+          <Button
+            onClick={() => {
+              setEditData('');
+              setBlogModal(true);
+            }}
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Add Blog
+          </Button>
+        </div>
       </div>
 
-      {/* List Blogs */}
-      {/* <div className="grid md:grid-cols-4 gap-6">
-        {blogs?.map((blog: any) => (
-          <div
-            key={blog.id}
-            className="relative bg-white rounded-xl shadow-md overflow-hidden border hover:shadow-lg transition-all duration-300"
-          >
-
-            <button
-              className="absolute top-3 right-3 bg-white p-2 rounded-full shadow hover:bg-gray-100"
-              onClick={() => { setEditData(blog), setBlogModal(!blogModal) }}
+      {/* Blogs Grid */}
+      {getBlogsData.isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {[...Array(4)].map((_, idx) => (
+            <div key={idx} className="bg-white rounded-2xl p-4 border border-gray-200/80 space-y-3 animate-pulse">
+              <div className="h-36 bg-gray-200 rounded-xl" />
+              <div className="h-4 bg-gray-200 rounded w-3/4" />
+              <div className="h-3 bg-gray-200 rounded w-1/2" />
+            </div>
+          ))}
+        </div>
+      ) : blogs?.length ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {blogs?.map((blog: any) => (
+            <div
+              key={blog.id}
+              className="group relative bg-white rounded-2xl shadow-2xs overflow-hidden border border-gray-200/80 hover:shadow-md hover:border-gray-300 transition-all duration-300 flex flex-col justify-between"
             >
-              <FileEdit size={18} className="text-gray-600" />
-            </button>
+              <div>
+                {/* Image Banner */}
+                <div className="relative h-40 bg-gray-100 overflow-hidden">
+                  <img
+                    src={blog?.banner_url || EmptyBox}
+                    alt={blog?.title}
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = EmptyBox;
+                    }}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  {/* Action overlay buttons */}
+                  <div className="absolute top-3 right-3 flex items-center gap-2">
+                    <button
+                      className="p-2 rounded-xl bg-white/90 backdrop-blur-xs text-gray-700 hover:text-gray-900 hover:bg-white shadow-xs transition-all active:scale-95"
+                      onClick={() => {
+                        setEditData(blog);
+                        setBlogModal(true);
+                      }}
+                      title="Edit Blog"
+                    >
+                      <FileEdit className="w-4 h-4 text-gray-700" />
+                    </button>
+                    <button
+                      className="p-2 rounded-xl bg-white/90 backdrop-blur-xs text-red-600 hover:bg-red-50 shadow-xs transition-all active:scale-95"
+                      onClick={() => {
+                        setDeleteData(blog);
+                        setDeleteModal(true);
+                      }}
+                      title="Delete Blog"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
 
-            <img
-              src={blog?.banner_url}
-              alt={blog?.title}
-              className="w-full h-24 object-cover"
-            />
+                {/* Content */}
+                <div className="p-4 space-y-2">
+                  <div className="flex items-center text-xs text-gray-500 font-medium">
+                    <span className="text-amber-700 font-semibold truncate max-w-[120px]">{blog?.author || "Store Author"}</span>
+                    <span className="mx-1.5">•</span>
+                    <span>
+                      {blog?.created_at ? new Date(blog.created_at).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" }) : 'Recent'}
+                    </span>
+                  </div>
 
-            <div className="p-5">
-              <div className="flex items-center text-sm text-gray-500 mb-1">
-                <span className="text-green-600 font-medium capitalize">{blog?.title || "Blog"}</span>
-                <span className="mx-2">•</span>
-                <span>
-                  {new Date(blog?.created_at).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </span>
-              </div>
-
-              <h3 className="text-xl line-clamp-1 font-semibold text-gray-800 hover:text-green-700 cursor-pointer">
-                {blog?.subtitle}
-              </h3>
-              <p className="text-gray-600 mt-2 text-sm line-clamp-2">{blog?.description}</p>
-
-              <div className="flex items-center mt-4">
-                <img
-                  src={`https://api.dicebear.com/7.x/initials/svg?seed=${blog?.author || "A"}`}
-                  alt={blog?.author}
-                  className="w-8 h-8 rounded-full mr-3"
-                />
-                <span className="text-sm font-medium text-gray-700">{blog?.author}</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div> */}
-
-      <div className="grid md:grid-cols-4 gap-6">
-        {blogs?.map((blog: any) => (
-          <div
-            key={blog.id}
-            className="relative bg-white rounded-xl shadow-md overflow-hidden border hover:shadow-lg transition-all duration-300"
-          >
-            {/* Top Right Icons */}
-            <div className="absolute top-3 right-3 flex gap-2">
-              {/* Edit */}
-              <button
-                className="bg-white p-2 rounded-full shadow hover:bg-gray-100"
-                onClick={() => {
-                  setEditData(blog);
-                  setBlogModal(true);
-                }}
-              >
-                <FileEdit size={18} className="text-gray-600" />
-              </button>
-
-              {/* Delete */}
-              <button
-                className="bg-white p-2 rounded-full shadow hover:bg-red-100"
-                onClick={() => {
-                  setDeleteData(blog);
-                  setDeleteModal(!deleteModal);
-                }}
-              >
-                <Trash2 size={18} className="text-red-600" />
-              </button>
-            </div>
-
-            <img
-              src={blog?.banner_url}
-              alt={blog?.title}
-              className="w-full h-24 object-cover"
-            />
-
-            <div className="p-5">
-              <div className="flex items-center text-sm text-gray-500 mb-1">
-                <span className="text-green-600 font-medium capitalize">{blog?.title}</span>
-                <span className="mx-2">•</span>
-                <span>
-                  {new Date(blog?.created_at).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </span>
-              </div>
-
-              <h3 className="text-xl line-clamp-1 font-semibold text-gray-800 hover:text-green-700 cursor-pointer">
-                {blog?.subtitle}
-              </h3>
-              {/* <p className="text-gray-600 mt-2 text-sm line-clamp-2">{blog?.description}</p> */}
-              <div dangerouslySetInnerHTML={{ __html: blog?.description?.slice(0, 50) }} className=" quill-content" />
-
-              <div className="flex items-center mt-4">
-                <img
-                  src={`https://api.dicebear.com/7.x/initials/svg?seed=${blog?.author || "A"}`}
-                  alt={blog?.author}
-                  className="w-6 h-6 rounded-full mr-3"
-                />
-                <span className="text-sm font-medium text-gray-700">{blog?.author}</span>
+                  <h3 className="text-base font-bold text-gray-900 line-clamp-1 group-hover:text-[#c49e1e] transition-colors" title={blog?.title}>
+                    {blog?.title}
+                  </h3>
+                  {blog?.subtitle && (
+                    <p className="text-xs font-semibold text-gray-500 line-clamp-1">
+                      {blog?.subtitle}
+                    </p>
+                  )}
+                  <p className="text-xs text-gray-600 line-clamp-2 mt-1">
+                    {blog?.description}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="py-12 text-center bg-white rounded-2xl border border-gray-200 shadow-2xs">
+          <img className="size-44 mx-auto object-contain opacity-80" src={EmptyBox} alt="No Blogs" />
+          <div className="mt-4 text-gray-900 font-semibold text-lg">No Blogs Published</div>
+          <p className="text-gray-500 text-sm mt-1">Click "Add Blog" to create your first article.</p>
+        </div>
+      )}
 
-
+      {/* Modal Components */}
       <BlogModal
         open={blogModal}
-        close={() => setBlogModal(!blogModal)}
+        close={() => setBlogModal(false)}
         userId={userId}
         editData={editData}
       />
 
+      {/* Delete Confirmation Modal */}
       {deleteModal && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
-          <div
-            className="bg-white p-4 rounded-lg shadow-lg w-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between">
-              <h2 className="text-xl font-semibold mb-4">Delete Blog</h2>
-            </div>
-
-            <p className="text-sm text-gray-600">
-              Are you sure you want to delete this {deleteData?.title}?
+        <div className="fixed inset-0 z-50 bg-gray-950/50 backdrop-blur-xs flex justify-center items-center p-4">
+          <div className="bg-white p-6 rounded-2xl shadow-xl max-w-md w-full border border-gray-100" onClick={(e) => e.stopPropagation()}>
+            <h2 className="text-xl font-bold text-gray-900 mb-2">Delete Blog</h2>
+            <p className="text-sm text-gray-600 mb-6">
+              Are you sure you want to delete <span className="font-bold text-gray-900">"{deleteData?.title}"</span>? This action cannot be undone.
             </p>
 
-            <div className="flex justify-end gap-4 pt-4">
+            <div className="flex justify-end gap-3">
               <button
                 type="button"
-                onClick={() => { setDeleteData(""), setLoading(false), setDeleteModal(!deleteModal) }}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+                onClick={() => {
+                  setDeleteData('');
+                  setDeleteModal(false);
+                }}
+                className="px-4 py-2 border border-gray-300 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 Cancel
               </button>
@@ -199,15 +191,17 @@ function Blogs({ userId }: any) {
                 type="button"
                 onClick={confirmDelete}
                 disabled={loading}
-                className="px-4 py-2 bg-[#e2ba2b] text-white rounded-md text-sm font-medium hover:bg-[#a6d719] gap-2 flex"
+                className="px-4 py-2 bg-red-600 text-white rounded-xl text-sm font-semibold hover:bg-red-700 transition-colors shadow-xs flex items-center gap-2"
               >
-                Confirm Delete {loading ? (<Loader className='animate-spin' />) : ''}
+                {loading && <Loader2 className="w-4 h-4 animate-spin shrink-0" />}
+                Confirm Delete
               </button>
             </div>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
+
 export default Blogs;

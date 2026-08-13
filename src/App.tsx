@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import CreateStore from './pages/CreateStore';
@@ -13,7 +12,6 @@ import WebsiteUsers from './pages/store/WebsiteUsers';
 import Marketing from './pages/store/Marketing';
 import Analytics from './pages/store/Analytics';
 import SingleOrder from './pages/store/SingleOrder';
-// import LandingPageMain from './components/LandingPage';
 import ProtectedRoutes from './ProtectedRoutes';
 import ErrorPage from './components/ErrorPage';
 import { ToastContainer } from 'react-toastify';
@@ -26,22 +24,19 @@ import ReviewsMain from './pages/store/Reviews';
 import Clients from './pages/store/Clients';
 import Testimonials from './pages/store/Testimonials';
 import ShopByVideos from './pages/store/ShopByVideos';
+import Attributes from './pages/store/Attributes';
+import CategoryAttributes from './pages/store/CategoryAttributes';
+import BuilderComponents from './pages/store/BuilderComponents';
+import BuilderCategories from './pages/store/BuilderCategories';
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50 overflow-y-scroll h-64 scrollbar-hide"
-       style={{
-        overflowY: 'scroll',
-        scrollbarWidth: 'none',
-        msOverflowStyle: 'none', 
-      }}
-      >
-      <ToastContainer position="top-right" autoClose={3000} />
-        <Navbar />
+      <div className="h-full w-full overflow-hidden bg-gray-50 text-gray-900 font-sans">
+        <ToastContainer autoClose={2000} />
         <Routes>
-          {/* <Route path="/" element={<Home />} /> */}
-          {/* <Route path="/" element={<LandingPageMain />} /> */}
+
+          {/* Public Routes */}
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -52,6 +47,10 @@ function App() {
             <Route path="/store/:id/website-users/singleOrder/:id" element={<SingleOrder />} />
             <Route path="/store/:id" element={<StoreLayout />}>
               <Route path="products" element={<Products />} />
+              <Route path="builder-categories" element={<BuilderCategories />} />
+              <Route path="attributes" element={<Attributes />} />
+              <Route path="category-attributes" element={<CategoryAttributes />} />
+              <Route path="builder-components" element={<BuilderComponents />} />
               <Route path="banner" element={<Banner />} />
               <Route path="coupons" element={<CouponsMain />} />
               <Route path="blogs" element={<BlogsMain />} />

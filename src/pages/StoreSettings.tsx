@@ -247,14 +247,19 @@ export default function StoreSettings() {
   const [showVideo, setShowVideo] = useState(false);
   const [videoData, setVideoData] = useState<any>('')
   return (
-    <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-      <div className="px-4 sm:px-0">
-        <h2 className="text-2xl font-semibold text-gray-900">Store Settings</h2>
-        <p className="mt-2 text-sm text-gray-700">
-          Manage your store's settings and integrations
+    <div className="max-w-7xl mx-auto space-y-6">
+      {/* Top Header Card */}
+      <div className="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-2xs">
+        <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Store Settings</h2>
+        <p className="mt-1 text-sm text-gray-500">
+          Manage your store details, domain, delivery integrations, addresses, and site policies
         </p>
-        <div className="mt-8">
-          <div className="space-y-4">
+      </div>
+
+      <div className="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-2xs space-y-6">
+        <div className="space-y-4">
+          <h3 className="text-lg font-bold text-gray-900 pb-2 border-b border-gray-100">General Information</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
               label="Store name"
               value={vendorSiteDetails?.vendor?.store_name}
@@ -805,35 +810,35 @@ export default function StoreSettings() {
       </div> */}
 
       {openSiteModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-              <div>
-                <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">
-                  Edit {siteEditKey}
-                </h3>
+        <div className="fixed inset-0 z-50 bg-gray-950/50 backdrop-blur-xs flex justify-center items-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl p-6 shadow-xl max-w-md w-full border border-gray-100 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex justify-between items-center pb-3 border-b border-gray-100 mb-4">
+              <h3 className="text-lg font-bold text-gray-900 capitalize">
+                Edit {siteEditKey?.replace(/_/g, " ")}
+              </h3>
+              <button
+                type="button"
+                onClick={() => setOpenSiteModal(false)}
+                className="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+              >
+                <XCircle className="w-5 h-5" />
+              </button>
+            </div>
 
-                <input
-                  className="w-full border px-3 py-2 rounded"
-                  value={siteEditValue}
-                  onChange={(e) => setSiteEditValue(e.target.value)}
-                />
+            <div className="space-y-4">
+              <input
+                className="w-full px-3.5 py-2.5 bg-white text-sm text-gray-900 border border-gray-300 rounded-xl focus:border-[#e2ba2b] focus:ring-2 focus:ring-[#e2ba2b]/20 focus:outline-none shadow-2xs"
+                value={siteEditValue}
+                onChange={(e) => setSiteEditValue(e.target.value)}
+              />
 
-                <div className="mt-5 sm:mt-6 flex justify-end space-x-2">
-                  <button
-                    className="bg-gray-200 text-gray-800 px-4 py-2 rounded"
-                    onClick={() => setOpenSiteModal(false)}
-                  >
-                    Cancel
-                  </button>
-
-                  <button
-                    className="bg-[#e2ba2b] hover:bg-[#a6d719]-300 text-white px-4 py-2 rounded"
-                    onClick={handleSubmitSiteChange}
-                  >
-                    Save
-                  </button>
-                </div>
+              <div className="flex justify-end gap-3 pt-2">
+                <Button variant="outline" onClick={() => setOpenSiteModal(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={handleSubmitSiteChange}>
+                  Save Changes
+                </Button>
               </div>
             </div>
           </div>
@@ -841,36 +846,34 @@ export default function StoreSettings() {
       )}
 
       {textAreaModal && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-40 flex items-center justify-center">
-          <div className="bg-white w-full max-w-lg mx-auto rounded-lg p-6 shadow-lg  max-h-[90vh] overflow-y-auto scrollbar-hide">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">
-              <span className='ml-1'> Edit </span>
-              {textAreaKey
-                .replace(/_/g, " ")
-                .replace(/\b\w/g, (c) => c.toUpperCase())}
-            </h3>
-
-            {/* <textarea
-              rows={8}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-              value={textAreaValue}
-              onChange={(e) => setTextAreaValue(e.target.value)}
-            /> */}
-            <ReactQuill value={textAreaValue} onChange={(value) => setTextAreaValue(value)} />
-            <div className="mt-5 flex justify-end space-x-2">
+        <div className="fixed inset-0 z-50 bg-gray-950/50 backdrop-blur-xs flex justify-center items-center p-4 overflow-y-auto">
+          <div className="bg-white w-full max-w-2xl mx-auto rounded-2xl p-6 shadow-xl max-h-[90vh] overflow-y-auto border border-gray-100 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex justify-between items-center pb-3 border-b border-gray-100 mb-4">
+              <h3 className="text-xl font-bold text-gray-900">
+                Edit {textAreaKey
+                  .replace(/_/g, " ")
+                  .replace(/\b\w/g, (c) => c.toUpperCase())}
+              </h3>
               <button
-                className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300"
+                type="button"
                 onClick={() => setTextAreaModal(false)}
+                className="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
               >
-                Cancel
+                <XCircle className="w-5 h-5" />
               </button>
+            </div>
 
-              <button
-                className="bg-[#e2ba2b] text-white px-4 py-2 rounded hover:bg-[#a6d719]"
-                onClick={updateSitePolices}
-              >
-                Save
-              </button>
+            <div className="space-y-4">
+              <ReactQuill value={textAreaValue} onChange={(value) => setTextAreaValue(value)} className="bg-white rounded-xl border border-gray-200 overflow-hidden" />
+              
+              <div className="flex justify-end gap-3 pt-2">
+                <Button variant="outline" onClick={() => setTextAreaModal(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={updateSitePolices}>
+                  Save Policy
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -878,7 +881,7 @@ export default function StoreSettings() {
 
       <AddressForm
         openModal={openModal}
-        handleClose={() => { setOpenMoadl(!openModal), setEditData("") }}
+        handleClose={() => { setOpenMoadl(!openModal); setEditData(""); }}
         editData={editData}
         setEditData={setEditData}
         pickupValue={vendorSiteDetails?.vendor_site_details?.delivery_partner}
@@ -890,24 +893,21 @@ export default function StoreSettings() {
       />
 
       {deleteModal && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
+        <div className="fixed inset-0 z-50 bg-gray-950/50 backdrop-blur-xs flex justify-center items-center p-4">
           <div
-            className="bg-white p-4 rounded-lg shadow-lg w-auto"
+            className="bg-white p-6 rounded-2xl shadow-xl max-w-md w-full border border-gray-100 animate-in fade-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex justify-between">
-              <h2 className="text-xl font-semibold mb-4">Delete Address</h2>
-            </div>
-
-            <p className="text-sm text-gray-600">
-              Are you sure you want to delete this address?
+            <h2 className="text-xl font-bold text-gray-900 mb-2">Delete Address</h2>
+            <p className="text-sm text-gray-600 mb-6">
+              Are you sure you want to delete this address? This action cannot be undone.
             </p>
 
-            <div className="flex justify-end gap-4 pt-4">
+            <div className="flex justify-end gap-3">
               <button
                 type="button"
-                onClick={() => { setEditData(""), setLoading(false), setDeleteModal(!deleteModal) }}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+                onClick={() => { setEditData(""); setLoading(false); setDeleteModal(false); }}
+                className="px-4 py-2 border border-gray-300 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 Cancel
               </button>
@@ -915,9 +915,10 @@ export default function StoreSettings() {
                 type="button"
                 onClick={confirmDelete}
                 disabled={loading}
-                className="px-4 py-2 bg-[#e2ba2b] text-white rounded-md text-sm font-medium hover:bg-[#a6d719] gap-2 flex"
+                className="px-4 py-2 bg-red-600 text-white rounded-xl text-sm font-semibold hover:bg-red-700 transition-colors shadow-xs flex items-center gap-2"
               >
-                Confirm Delete {loading ? (<Loader className='animate-spin' />) : ''}
+                {loading && <Loader className="w-4 h-4 animate-spin shrink-0" />}
+                Confirm Delete
               </button>
             </div>
           </div>

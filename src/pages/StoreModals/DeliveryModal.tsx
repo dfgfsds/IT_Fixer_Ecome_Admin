@@ -250,11 +250,13 @@ function DeliveryModal({ handleClose, vendorSiteDetails, deliveryEditData }: any
     };
 
     return (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-40 flex items-center justify-center">
-            <div className="bg-white w-full max-w-lg mx-auto rounded-lg p-3 shadow-lg max-h-[90vh] overflow-y-auto scrollbar-hide">
-                <div className="flex justify-between font-bold mb-2">
-                    <div>Add Delivery Partner</div>
-                    <X className="cursor-pointer" onClick={handleClose} />
+        <div className="fixed inset-0 z-50 bg-gray-950/50 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+            <div className="bg-white w-full max-w-lg mx-auto rounded-2xl p-6 shadow-xl max-h-[90vh] overflow-y-auto border border-gray-100 animate-in fade-in zoom-in-95 duration-200">
+                <div className="flex justify-between items-center font-bold mb-4 pb-3 border-b border-gray-100">
+                    <div className="text-xl font-bold text-gray-900">Add Delivery Partner</div>
+                    <button type="button" onClick={handleClose} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+                        <X className="w-5 h-5" />
+                    </button>
                 </div>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
