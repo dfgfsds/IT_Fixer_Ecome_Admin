@@ -877,9 +877,14 @@ function CouponModal({ close, editData, setEditData }: any) {
 
   // ---------- JSX ----------
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-40 flex items-center justify-center">
-      <div className="bg-white w-full max-w-2xl mx-auto rounded-lg p-6 shadow-lg overflow-y-auto max-h-[90vh]">
-        <h3 className="text-lg text-gray-900 mb-4 font-bold">{editData ? 'Edit' : 'Create'} Coupon</h3>
+    <div className="fixed inset-0 z-50 bg-gray-950/50 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-white w-full max-w-2xl mx-auto rounded-2xl p-6 shadow-xl overflow-y-auto max-h-[90vh] border border-gray-100 animate-in fade-in zoom-in-95 duration-200">
+        <div className="flex justify-between items-center pb-3 border-b border-gray-100 mb-4">
+          <h3 className="text-xl font-bold text-gray-900">{editData ? 'Edit' : 'Create'} Coupon</h3>
+          <button type="button" onClick={() => { close(); reset(); setEditData(''); }} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-2">

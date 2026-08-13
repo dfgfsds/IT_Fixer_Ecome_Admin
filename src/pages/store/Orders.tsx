@@ -8,38 +8,23 @@ import { Order, OrderStatus } from '../../types/order';
 import { getVendorOrderApi } from '../../Api-Service/Apis';
 import { useQuery } from '@tanstack/react-query';
 import { Pagination } from '../Pagination';
-import { Download, Loader2 } from 'lucide-react';
-import EmptyBox from '../../assets/image/empty-box.png'
+import { Download, Eye, ShoppingBag } from 'lucide-react';
+import EmptyBox from '../../assets/image/empty-box.png';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { toast } from 'react-toastify';
 
 export default function Orders() {
   const { id } = useParams<{ id: string }>();
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const navigate = useNavigate();
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-
-
-  const handleUpdateStatus = (status: OrderStatus) => {
-    console.log('Update order status:', status);
-  };
 
   const { data, isLoading }: any = useQuery({
     queryKey: ['getVendorOrder', id],
     queryFn: () => getVendorOrderApi(`vendor/${id}`)
   });
-
-  // const filteredOrders = data?.data?.filter((order: any) =>
-  //   order?.consumer_address?.customer_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //   order?.consumer_address?.email_address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //   order?.status?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //   order?.total?.toString().includes(searchTerm) ||
-  //   order?.items?.some((item: any) =>
-  //     item?.productName?.toLowerCase().includes(searchTerm.toLowerCase())
-  //   )
-  // );
 
   const sortedOrders = data?.data
     ?.slice()
@@ -52,13 +37,11 @@ export default function Orders() {
     order?.consumer_address?.customer_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     order?.consumer_address?.email_address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     order?.status?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    order?.total?.toString().includes(searchTerm) ||
-    order?.items?.some((item: any) =>
-      item?.productName?.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    order?.total_amount?.toString().includes(searchTerm) ||
+    order?.id?.toString().includes(searchTerm)
   );
 
-  const totalPages = Math.ceil(filteredOrders?.length / itemsPerPage);
+  const totalPages = Math.ceil((filteredOrders?.length || 0) / itemsPerPage);
   const paginatedItems = filteredOrders?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -66,14 +49,14 @@ export default function Orders() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, []);
+  }, [searchTerm]);
 
   const handleDownloadExcel = () => {
-    if (!paginatedItems.length) {
-      alert('No Orders to download!');
+    if (!filteredOrders?.length) {
+      toast.info('No Orders to download!');
       return;
     }
-    const worksheet = XLSX.utils.json_to_sheet(paginatedItems);
+    const worksheet = XLSX.utils.json_to_sheet(filteredOrders);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Orders');
     const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
@@ -82,145 +65,159 @@ export default function Orders() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-      <div className="px-4 sm:px-0">
-        <h1 className="text-2xl font-semibold text-gray-900">Orders</h1>
-        <p className="mt-2 text-sm text-gray-700">
-          View and manage your store's orders
-        </p>
+    <div className="max-w-7xl mx-auto space-y-6">
+      {/* Page Header */}
+      <div className="sm:flex sm:items-center sm:justify-between bg-white p-6 rounded-2xl border border-gray-200/80 shadow-2xs">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Orders</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            View and manage customer orders, track statuses and order details
+          </p>
+        </div>
+        <div className="mt-4 sm:mt-0 flex items-center gap-2 bg-amber-50 text-amber-800 px-3.5 py-1.5 rounded-full text-xs font-semibold border border-amber-200/60">
+          <ShoppingBag className="w-4 h-4 text-[#e2ba2b]" />
+          <span>{filteredOrders?.length || 0} Total Orders</span>
+        </div>
+      </div>
 
-        <div className="mt-4 flex justify-between">
-          <Search
-            value={searchTerm}
-            onChange={setSearchTerm}
-            placeholder="Search orders by ID, customer, status, or products..."
-          />
-          <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-            <Button onClick={handleDownloadExcel} className='flex'>
-              <Download className="h-4 w-4 mr-2 my-auto" />
-              Excel Download
-            </Button>
+      {/* Search & Export Action Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-gray-200/80 shadow-2xs">
+        <Search
+          value={searchTerm}
+          onChange={setSearchTerm}
+          placeholder="Search orders by ID, customer name, email or status..."
+          className="w-full sm:w-96"
+        />
+        <Button variant="outline" onClick={handleDownloadExcel}>
+          <Download className="h-4 w-4 mr-2" />
+          Export Excel
+        </Button>
+      </div>
+
+      {/* Orders Table */}
+      {isLoading ? (
+        <div className="mt-6 flex flex-col">
+          <div className="overflow-x-auto shadow-sm ring-1 ring-black/5 rounded-2xl bg-white scrollbar-thin">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3.5 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">S.No</th>
+                  <th className="px-6 py-3.5 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Order ID</th>
+                  <th className="px-6 py-3.5 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Customer</th>
+                  <th className="px-6 py-3.5 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Date</th>
+                  <th className="px-6 py-3.5 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Total</th>
+                  <th className="px-6 py-3.5 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-3.5 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200 bg-white">
+                {[...Array(5)].map((_, index) => (
+                  <tr key={index}>
+                    {Array.from({ length: 7 }).map((_, idx) => (
+                      <td key={idx} className="px-6 py-4">
+                        <div className="h-4 bg-gray-200 rounded-md animate-pulse" />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
-        {isLoading ? (
-          <>
-            {/* <div className="flex justify-center items-center text-blue-700 text-2xl gap-1 py-5">
-              <Loader2 size={40} className="animate-spin" /> 0Loading...
-            </div> */}
-            <div className="mt-8 flex flex-col">
-              <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div className="inline-block min-w-full py-2 align-middle">
-                  <div className="overflow-hidden shadow-sm ring-1 ring-black ring-opacity-5">
-                    <table className="min-w-full divide-y divide-gray-300">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">S.No</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Order ID</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Customer</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Date</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Total</th>
-                          <th className="px-6 py-3 text-center text-sm font-semibold text-gray-900">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-200 bg-white">
-                        {[...Array(5)]?.map((_, index) => (
-                          <tr key={index}>
-                            {Array?.from({ length: 6 })?.map((_, idx) => (
-                              <td key={idx} className="px-6 py-4">
-                                <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-                              </td>
-                            ))}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+      ) : (
+        <>
+          {paginatedItems?.length ? (
+            <div className="mt-6 flex flex-col">
+              <div className="overflow-x-auto shadow-sm ring-1 ring-black/5 rounded-2xl bg-white scrollbar-thin">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50/80">
+                    <tr>
+                      <th className="px-6 py-3.5 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">S.No</th>
+                      <th className="px-6 py-3.5 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Order ID</th>
+                      <th className="px-6 py-3.5 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Customer</th>
+                      <th className="px-6 py-3.5 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Date</th>
+                      <th className="px-6 py-3.5 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Total</th>
+                      <th className="px-6 py-3.5 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Status</th>
+                      <th className="px-6 py-3.5 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200 bg-white">
+                    {paginatedItems?.map((order: any, index: number) => (
+                      <tr key={order.id || index} className="hover:bg-gray-50/60 transition-colors">
+                        <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-500">
+                          {(currentPage - 1) * itemsPerPage + index + 1}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm font-bold text-gray-900">
+                          #{order.id}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm font-semibold text-gray-800">
+                          {order?.consumer_address?.customer_name || 'Guest Customer'}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600">
+                          {order?.created_at ? new Date(order.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '-'}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm font-bold text-gray-900">
+                          ₹{Number(order?.total_amount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm">
+                          <OrderStatusBadge status={order?.status} />
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-center text-sm font-medium">
+                          <button
+                            onClick={() => setSelectedOrder(order)}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors shadow-2xs"
+                          >
+                            <Eye className="w-3.5 h-3.5 text-gray-500" />
+                            View Details
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Pagination */}
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 px-2">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <span>Show:</span>
+                  <select
+                    value={itemsPerPage}
+                    onChange={(e: any) => {
+                      setItemsPerPage(Number(e.target.value));
+                      setCurrentPage(1);
+                    }}
+                    className="border border-gray-300 rounded-lg px-2.5 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  >
+                    <option value={10}>10 per page</option>
+                    <option value={25}>25 per page</option>
+                    <option value={50}>50 per page</option>
+                    <option value={100}>100 per page</option>
+                  </select>
                 </div>
               </div>
             </div>
-          </>
-        ) : (
-          <>
-            {paginatedItems?.length ? (
-              <div className="mt-8 flex flex-col">
-                <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                  <div className="inline-block min-w-full py-2 align-middle">
-                    <div className="overflow-hidden shadow-sm ring-1 ring-black ring-opacity-5">
-                      <table className="min-w-full divide-y divide-gray-300">
-                        <thead className="bg-gray-50">
-                          <tr>
-                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">S.No</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Order ID</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Customer</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Date</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Total</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Actions</th>
-                            {/* <th className="relative px-6 py-3"><span className="sr-only">Actions</span></th> */}
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200 bg-white">
-                          {paginatedItems?.map((order: any, index: number) => (
-                            <tr key={order.id}>
-                              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{index + 1}</td>
-                              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">#{order.id}</td>
-                              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{order?.consumer_address?.customer_name}</td>
-                              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                                {new Date(order?.created_at).toLocaleDateString()}
-                              </td>
-                              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">₹{order?.total_amount}</td>
-                              <td className="whitespace-nowrap px-6 py-4 text-sm">
-                                <OrderStatusBadge status={order?.status} />
-                              </td>
-                              <td className="whitespace-nowrap px-6 py-4 text-right text-sm">
-                                <Button variant="outline" onClick={() => setSelectedOrder(order)}>
-                                  {/* <Button variant="outline" onClick={() => navigate(`singleOrder/${order?.user}`)}> */}
+          ) : (
+            <div className="py-12 text-center bg-white rounded-2xl border border-gray-200 mt-6 shadow-2xs">
+              <img className="size-48 mx-auto object-contain opacity-80" src={EmptyBox} alt="No Orders" />
+              <div className="mt-4 text-gray-900 font-semibold text-lg">No Orders Found</div>
+              <p className="text-gray-500 text-sm mt-1">Orders placed by customers will appear here.</p>
+            </div>
+          )}
+        </>
+      )}
 
-
-                                  View Details
-                                </Button>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-
-                    {/* Pagination */}
-                    <div className="flex justify-between mt-3 px-2">
-                      <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={setCurrentPage}
-                      />
-                      <select
-                        value={itemsPerPage}
-                        onChange={(e: any) => setItemsPerPage(Number(e.target.value))}
-                        className="border h-10 rounded px-2 py-1 text-sm !focus:outline-none !focus:ring-2 !focus:ring-blue-500"
-                      >
-                        <option value={10}>10 per page</option>
-                        <option value={25}>25 per page</option>
-                        <option value={50}>50 per page</option>
-                        <option value={100}>100 per page</option>
-                      </select>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <>
-                <img className='size-60 mx-auto' src={EmptyBox} />
-                <div className='text-center text-blue-800 font-bold'>No Orders Found</div>
-              </>
-            )}</>)}
-      </div>
-
+      {/* Order Details Modal */}
       {selectedOrder && (
         <OrderDetailsModal
           order={selectedOrder}
           onClose={() => setSelectedOrder(null)}
-          onUpdateStatus={handleUpdateStatus}
+          onUpdateStatus={setSelectedOrder}
         />
       )}
     </div>

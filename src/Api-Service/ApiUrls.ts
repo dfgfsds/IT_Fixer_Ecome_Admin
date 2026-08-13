@@ -1,5 +1,5 @@
 export const baseUrl = 'https://ecomapi.ftdigitalsolutions.org';
-// export const baseUrl = 'https://test-ecomapi.justvy.in';
+// export const baseUrl = 'https://test-ecomapi.ftdigitalsolutions.org';
 // const baseUrl ='http://82.29.161.36'
 
 const multiVendor = `${baseUrl}/create_multivendor_users/`;
@@ -38,6 +38,11 @@ const domainThemeUpdate = `${baseUrl}/domain_theme_update_api/`;
 const vendorLogin = `${baseUrl}/vendor_user_login/`;
 const vendorOtherDetails = `${baseUrl}/vendor-other-details/`;
 const vendorUserLogin = `${baseUrl}/vendor_user_login/`;
+const attributes = `${baseUrl}/pc-builder/attributes/`;
+const categoryAttributes = `${baseUrl}/pc-builder/category-attributes/`;
+const pcComponents = `${baseUrl}/pc-builder/components/`;
+const pcCategories = `${baseUrl}/pc-builder/categories/`;
+
 export default {
     multiVendor,
     multiVendorLogin,
@@ -74,4 +79,8 @@ export default {
     vendorLogin,
     vendorOtherDetails,
     vendorUserLogin,
+    attributes,
+    categoryAttributes,
+    pcComponents,
+    pcCategories,
 };

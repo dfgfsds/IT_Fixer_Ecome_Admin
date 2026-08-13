@@ -15,7 +15,7 @@ import { useParams } from 'react-router-dom';
 interface OrderDetailsModalProps {
   order: any;
   onClose: () => void;
-  onUpdateStatus: (status: OrderStatus) => void;
+  onUpdateStatus: (status: any) => any;
 }
 
 const formatYMD = (d: Date) => {
@@ -158,407 +158,404 @@ export default function OrderDetailsModal({ order, onClose, onUpdateStatus }: Or
 
 
   return (
-    <div className="fixed inset-0 z-10 overflow-y-auto">
-      <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-        <div className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-          <div className="absolute right-0 top-0 pr-4 pt-4">
-            <button onClick={onClose} className="text-gray-400 hover:text-gray-500">
-              <X className="h-6 w-6" />
-            </button>
-          </div>
-          {isLoading ? (
-            <>
-              <div className="sm:flex sm:items-start animate-pulse">
-                <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
-                  <div className="h-6 bg-gray-300 rounded w-1/3 mb-6"></div>
+    <div className="fixed inset-0 z-50 bg-gray-950/50 backdrop-blur-xs flex justify-center items-center p-4 overflow-y-auto">
+      <div className="relative bg-white rounded-2xl shadow-xl max-w-xl w-full p-6 my-8 border border-gray-100 max-h-[90vh] overflow-y-auto">
+        <div className="absolute right-4 top-4 z-10">
+          <button onClick={onClose} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+        {isLoading ? (
+          <>
+            <div className="sm:flex sm:items-start animate-pulse">
+              <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                <div className="h-6 bg-gray-300 rounded w-1/3 mb-6"></div>
 
-                  <div className="mt-4 space-y-4">
-                    <div className="flex justify-between items-center">
-                      <div className="h-4 bg-gray-300 rounded w-1/4"></div>
-                      <div className="h-6 w-20 bg-gray-300 rounded"></div>
+                <div className="mt-4 space-y-4">
+                  <div className="flex justify-between items-center">
+                    <div className="h-4 bg-gray-300 rounded w-1/4"></div>
+                    <div className="h-6 w-20 bg-gray-300 rounded"></div>
+                  </div>
+
+                  <div>
+                    <div className="h-4 bg-gray-300 rounded w-1/4 mb-2"></div>
+                    <div className="h-10 bg-gray-300 rounded"></div>
+                  </div>
+
+                  <div>
+                    <div className="h-4 bg-gray-300 rounded w-1/4 mb-2"></div>
+                    <div className="space-y-1">
+                      <div className="h-4 bg-gray-300 rounded w-1/3"></div>
+                      <div className="h-4 bg-gray-300 rounded w-1/2"></div>
                     </div>
+                  </div>
 
-                    <div>
-                      <div className="h-4 bg-gray-300 rounded w-1/4 mb-2"></div>
-                      <div className="h-10 bg-gray-300 rounded"></div>
+                  <div>
+                    <div className="h-4 bg-gray-300 rounded w-1/4 mb-2"></div>
+                    <div className="space-y-1">
+                      <div className="h-4 bg-gray-300 rounded w-2/3"></div>
+                      <div className="h-4 bg-gray-300 rounded w-1/2"></div>
                     </div>
+                  </div>
 
-                    <div>
-                      <div className="h-4 bg-gray-300 rounded w-1/4 mb-2"></div>
-                      <div className="space-y-1">
-                        <div className="h-4 bg-gray-300 rounded w-1/3"></div>
-                        <div className="h-4 bg-gray-300 rounded w-1/2"></div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <div className="h-4 bg-gray-300 rounded w-1/4 mb-2"></div>
-                      <div className="space-y-1">
-                        <div className="h-4 bg-gray-300 rounded w-2/3"></div>
-                        <div className="h-4 bg-gray-300 rounded w-1/2"></div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <div className="h-4 bg-gray-300 rounded w-1/4 mb-2"></div>
-                      <div className="divide-y divide-gray-200">
-                        {[...Array(3)].map((_, idx) => (
-                          <div key={idx} className="py-3 flex justify-between">
-                            <div className="flex items-center">
-                              <div className="h-10 w-10 bg-gray-300 rounded mr-3"></div>
-                              <div className="space-y-1">
-                                <div className="h-4 bg-gray-300 rounded w-32"></div>
-                              </div>
-                            </div>
-                            <div className="space-y-1 text-right">
-                              <div className="h-4 bg-gray-300 rounded w-12"></div>
-                              <div className="h-4 bg-gray-300 rounded w-16"></div>
+                  <div>
+                    <div className="h-4 bg-gray-300 rounded w-1/4 mb-2"></div>
+                    <div className="divide-y divide-gray-200">
+                      {[...Array(3)].map((_, idx) => (
+                        <div key={idx} className="py-3 flex justify-between">
+                          <div className="flex items-center">
+                            <div className="h-10 w-10 bg-gray-300 rounded mr-3"></div>
+                            <div className="space-y-1">
+                              <div className="h-4 bg-gray-300 rounded w-32"></div>
                             </div>
                           </div>
-                        ))}
-                      </div>
+                          <div className="space-y-1 text-right">
+                            <div className="h-4 bg-gray-300 rounded w-12"></div>
+                            <div className="h-4 bg-gray-300 rounded w-16"></div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
+                  </div>
 
-                    <div className="border-t pt-4">
-                      <div className="flex justify-between text-base font-medium">
-                        <div className="h-4 bg-gray-300 rounded w-16"></div>
-                        <div className="h-4 bg-gray-300 rounded w-20"></div>
-                      </div>
+                  <div className="border-t pt-4">
+                    <div className="flex justify-between text-base font-medium">
+                      <div className="h-4 bg-gray-300 rounded w-16"></div>
+                      <div className="h-4 bg-gray-300 rounded w-20"></div>
                     </div>
                   </div>
                 </div>
               </div>
-            </>
-          ) : (
-            <>
-              <div className="sm:flex sm:items-start">
-                <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
-                  <h3 className="text-lg font-semibold leading-6 text-gray-900">
-                    Order #{data?.data?.id}
-                  </h3>
-                  <div className="mt-4 space-y-4">
-                    {/* Status + Dropdown */}
-                    <div className="flex justify-between items-center">
-                      <span className="text-md text-gray-900 font-bold">Status</span>
-                      <OrderStatusBadge status={data?.data?.status} />
-                    </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="sm:flex sm:items-start">
+              <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                <h3 className="text-lg font-semibold leading-6 text-gray-900">
+                  Order #{data?.data?.id}
+                </h3>
+                <div className="mt-4 space-y-4">
+                  {/* Status + Dropdown */}
+                  <div className="flex justify-between items-center">
+                    <span className="text-md text-gray-900 font-bold">Status</span>
+                    <OrderStatusBadge status={data?.data?.status} />
+                  </div>
 
-                    <div className='flex justify-between items-center'>
-                      {!(data?.data?.status === 'Cancelled/Refunded') && (
-                        <div>
-                          <label className="block text-md mb-2 font-medium text-black">Update Status</label>
-                          <select
-                            className="mt-1 block w-auto p-2 rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            value={data?.data?.status}
-                            onChange={(e) => handleUpadteStatus(e.target.value)}
-                          >
-                            {["Pending", "Shipped", "Cancelled", "Delivered", "Out For Delivery", "Cancelled/Refunded", "Processing"].map((status) => (
-                              <option key={status} value={status}>{status}</option>
-                            ))}
-                          </select>
-                        </div>
-                      )}
-                      {/* Refund Button */}
-                      {(!showRefundForm) && (
-                        <>
-                          {data?.data?.payment_status !== 'unpaid' && (
-                            <div className="mt-4">
-                              {(data?.data?.status !== 'Cancelled/Refunded') && (
-                                <button
-                                  className='bg-red-500 p-2 text-white rounded-md hover:bg-[#e2ba2b]'
-                                  onClick={() => setShowRefundForm(!showRefundForm)}
-                                >
-                                  Refund
-                                </button>
-                              )}
-                            </div>
-                          )}
-                        </>
-                      )}
-
-                    </div>
-
-                    {showRefundForm && (
-                      <div className="mt-4 p-4 bg-gray-50 rounded-lg border">
-                        <h4 className="font-medium text-sm mb-1">Reason for Refund</h4>
-                        <textarea
-                          className="w-full border rounded px-3 py-2 text-sm"
-                          rows={5}
-                          placeholder="Enter refund reason"
-                          value={refundReason}
-                          onChange={(e) => setRefundReason(e.target.value)}
-                        />
-                        <div className="mt-1 flex justify-end gap-2">
-                          <button
-                            className='bg-red-500 p-2 text-white rounded-md hover:bg-[#e2ba2b]' onClick={() => setShowRefundForm(false)}>Cancel</button>
-                          <Button onClick={handleRefundSubmit}>Submit</Button>
-                        </div>
+                  <div className='flex justify-between items-center'>
+                    {!(data?.data?.status === 'Cancelled/Refunded') && (
+                      <div>
+                        <label className="block text-md mb-2 font-medium text-black">Update Status</label>
+                        <select
+                          className="mt-1 block w-auto p-2 rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          value={data?.data?.status}
+                          onChange={(e) => handleUpadteStatus(e.target.value)}
+                        >
+                          {["Pending", "Shipped", "Cancelled", "Delivered", "Out For Delivery", "Cancelled/Refunded", "Processing"].map((status) => (
+                            <option key={status} value={status}>{status}</option>
+                          ))}
+                        </select>
                       </div>
                     )}
-
-                    {/* Customer */}
-                    <div>
-                      <h4 className=" text-sm font-medium text-black">Customer Details</h4>
-                      <div className="mt-2 text-sm">
-                        <p>{data?.data?.consumer_address?.customer_name}</p>
-                        <p>{data?.data?.consumer_address?.email_address}</p>
-                      </div>
-                    </div>
-
-                    {/* Address */}
-                    <div>
-                      <h4 className="text-sm font-medium text-black">Shipping Address</h4>
-                      <div className="mt-2 text-sm text-gray-700">
-                        <p className='flex flex-wrap'>{data?.data?.consumer_address?.address_line1}</p>
-                        <p>{data?.data?.consumer_address?.city}, {data?.data?.consumer_address?.state} {data?.data?.consumer_address?.zipCode}</p>
-                        <p>{data?.data?.consumer_address?.country} - {data?.data?.consumer_address?.postal_code}</p>
-                      </div>
-                    </div>
-
-                    {/* Items */}
-                    <div>
-                      <h4 className="font-medium text-sm text-black">Order Items</h4>
-                      <div className="mt-2 divide-y divide-gray-200">
-                        {data?.data?.order_items?.map((item: any) => (
-                          <div key={item.id} className="py-3 flex justify-between">
-                            <div className="flex items-center">
-                              {item.product_details?.image_urls[0] && (
-                                <img src={item?.product_details.image_urls[0]} className="h-10 w-10 rounded object-cover mr-3" />
-                              )}
-                              <div className="text-sm">
-                                <p className="font-medium">{item?.product_details?.name}</p>
-                              </div>
-                            </div>
-                            <div className="text-sm text-right">
-                              <p>₹{item.price} × {item.quantity}</p>
-                              <p className="font-medium">₹{item.price * item.quantity}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Total */}
-                    <div>
-                      {/* 💰 Price Summary Section */}
-                      <div className="border-t pt-4 mt-4 bg-gray-50 p-4 rounded-lg shadow-sm space-y-2">
-                        {/* Subtotal */}
-                        <div className="flex justify-between text-sm md:text-base font-medium text-gray-700">
-                          <p>Subtotal</p>
-                          <p>
-                            ₹
-                            {data?.data?.order_items
-                              ?.reduce(
-                                (acc: number, item: any) => acc + parseFloat(item.price) * item.quantity,
-                                0
-                              )
-                              ?.toFixed(2) || 0}
-                          </p>
-                        </div>
-
-
-
-                        {/* Delivery Charge */}
-                        {data?.data?.delivery_charge && (
-                          <div className="flex justify-between text-sm md:text-base text-gray-600">
-                            <p>Delivery Charge</p>
-                            <p>₹{parseFloat(data?.data?.delivery_charge || "0").toFixed(2)}</p>
+                    {/* Refund Button */}
+                    {(!showRefundForm) && (
+                      <>
+                        {data?.data?.payment_status !== 'unpaid' && (
+                          <div className="mt-4">
+                            {(data?.data?.status !== 'Cancelled/Refunded') && (
+                              <button
+                                className='bg-red-500 p-2 text-white rounded-md hover:bg-[#e2ba2b]'
+                                onClick={() => setShowRefundForm(!showRefundForm)}
+                              >
+                                Refund
+                              </button>
+                            )}
                           </div>
                         )}
-
-
-                        {/* COD Charge */}
-                        {parseFloat(data?.data?.cod_charges || "0") > 0 && (
-                          <div className="flex justify-between text-sm md:text-base text-gray-600">
-                            <p>COD Charges</p>
-                            <p>₹{parseFloat(data?.data?.cod_charges || "0").toFixed(2)}</p>
-                          </div>
-                        )}
-
-                        {/* Delivery Discount (if available) */}
-                        {parseFloat(data?.data?.delivery_discount || "0") > 0 && (
-                          <div className="flex justify-between text-sm md:text-base text-gray-600">
-                            <p>Delivery Discount</p>
-                            <p className="text-red-500">-₹{data?.data.delivery_discount}</p>
-                          </div>
-                        )}
-                        {/* Discount */}
-                        {data?.data?.discount && data?.data?.discount > 0 && (
-                          <div className="flex justify-between text-sm md:text-base text-gray-600">
-                            <p>Discount</p>
-                            <p className="text-red-500">
-                              -₹{parseFloat(data?.data?.discount || "0").toFixed(2)}
-                            </p>
-                          </div>
-                        )}
-
-
-                        <hr className="my-2 border-gray-300" />
-
-                        {/* Total */}
-                        <div className="flex justify-between text-base md:text-lg font-semibold text-gray-900">
-                          <p>Total</p>
-                          <p>₹{parseFloat(data?.data?.total_amount || "0").toFixed(2)}</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Payment Status */}
-                    <div className="flex justify-between items-center">
-                      <span className="text-base font-medium">Payment Status</span>
-                      <div className={`px-3 py-1 text-sm rounded-lg uppercase font-semibold tracking-wide 
-            ${data?.data?.payment_status === 'paid' ? 'bg-green-200 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
-                        {data?.data?.payment_status}
-                      </div>
-                    </div>
-
-
-                    {/* Dates */}
-                    <div className="flex justify-between gap-2 flex-wrap text-sm text-gray-500 mt-1 mb-2">
-                      <p className='font-bold text-black'>Created: <span className='text-gray-500'>{formatDateTime(data?.data?.created_at)}</span></p>
-                      <p className='font-bold text-black'>Updated: <span className='text-gray-500'>{formatDateTime(data?.data?.updated_at)}</span></p>
-                    </div>
-
+                      </>
+                    )}
 
                   </div>
-                </div>
-              </div>
 
-              {/* Shiprocket Actions */}
-              {data?.data?.delivery_partner === 'shiprocket' && data?.data?.status === 'Pending' && (
-                <>
-                  <div className="w-full bg-white rounded-xl p-2  shadow-sm mt-5">
+                  {showRefundForm && (
+                    <div className="mt-4 p-4 bg-gray-50 rounded-lg border">
+                      <h4 className="font-medium text-sm mb-1">Reason for Refund</h4>
+                      <textarea
+                        className="w-full border rounded px-3 py-2 text-sm"
+                        rows={5}
+                        placeholder="Enter refund reason"
+                        value={refundReason}
+                        onChange={(e) => setRefundReason(e.target.value)}
+                      />
+                      <div className="mt-1 flex justify-end gap-2">
+                        <button
+                          className='bg-red-500 p-2 text-white rounded-md hover:bg-[#e2ba2b]' onClick={() => setShowRefundForm(false)}>Cancel</button>
+                        <Button onClick={handleRefundSubmit}>Submit</Button>
+                      </div>
+                    </div>
+                  )}
 
-                    {/* Title */}
-                    <h4 className="font-semibold text-[15px] text-gray-800 mb-3">
-                      Shiprocket
-                    </h4>
+                  {/* Customer */}
+                  <div>
+                    <h4 className=" text-sm font-medium text-black">Customer Details</h4>
+                    <div className="mt-2 text-sm">
+                      <p>{data?.data?.consumer_address?.customer_name}</p>
+                      <p>{data?.data?.consumer_address?.email_address}</p>
+                    </div>
+                  </div>
 
-                    {/* Row: Date + Button */}
-                    <div className="flex items-center justify-between gap-3">
+                  {/* Address */}
+                  <div>
+                    <h4 className="text-sm font-medium text-black">Shipping Address</h4>
+                    <div className="mt-2 text-sm text-gray-700">
+                      <p className='flex flex-wrap'>{data?.data?.consumer_address?.address_line1}</p>
+                      <p>{data?.data?.consumer_address?.city}, {data?.data?.consumer_address?.state} {data?.data?.consumer_address?.zipCode}</p>
+                      <p>{data?.data?.consumer_address?.country} - {data?.data?.consumer_address?.postal_code}</p>
+                    </div>
+                  </div>
 
-                      {/* Pickup Date Input */}
-                      <div className="flex flex-col w-1/2">
-                        <label
-                          htmlFor="pickup-date"
-                          className="text-[13px] text-gray-600 mb-1 font-medium"
-                        >
-                          Pickup Date
-                        </label>
+                  {/* Items */}
+                  <div>
+                    <h4 className="font-medium text-sm text-black">Order Items</h4>
+                    <div className="mt-2 divide-y divide-gray-200">
+                      {data?.data?.order_items?.map((item: any) => (
+                        <div key={item.id} className="py-3 flex justify-between">
+                          <div className="flex items-center">
+                            {item.product_details?.image_urls[0] && (
+                              <img src={item?.product_details.image_urls[0]} className="h-10 w-10 rounded object-cover mr-3" />
+                            )}
+                            <div className="text-sm">
+                              <p className="font-medium">{item?.product_details?.name}</p>
+                            </div>
+                          </div>
+                          <div className="text-sm text-right">
+                            <p>₹{item.price} × {item.quantity}</p>
+                            <p className="font-medium">₹{item.price * item.quantity}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
 
-                        <input
-                          id="pickup-date"
-                          type="date"
-                          className="border border-gray-300 rounded-lg px-3 py-2 text-sm
-               focus:outline-none focus:ring-2 focus:ring-indigo-500
-               disabled:bg-gray-100 disabled:text-gray-400"
-                          value={pickupDate}
-                          min={minDate}
-                          max={maxDate}
-                          onChange={(e) => setPickupDate(e.target.value)}
-                        />
+                  {/* Total */}
+                  <div>
+                    {/* 💰 Price Summary Section */}
+                    <div className="border-t pt-4 mt-4 bg-gray-50 p-4 rounded-lg shadow-sm space-y-2">
+                      {/* Subtotal */}
+                      <div className="flex justify-between text-sm md:text-base font-medium text-gray-700">
+                        <p>Subtotal</p>
+                        <p>
+                          ₹
+                          {data?.data?.order_items
+                            ?.reduce(
+                              (acc: number, item: any) => acc + parseFloat(item.price) * item.quantity,
+                              0
+                            )
+                            ?.toFixed(2) || 0}
+                        </p>
                       </div>
 
-                      {/* Button */}
-                      <Button
-                        className="h-[42px] px-5 bg-indigo-600 text-white rounded-lg font-medium  mt-4
-               hover:bg-indigo-700 transition disabled:bg-gray-300 whitespace-nowrap"
-                        onClick={() => handleShiprocketAction("pickup", pickupDate)}
-                        disabled={loadingAction || data?.data?.status !== "Pending"}
+
+
+                      {/* Delivery Charge */}
+                      {data?.data?.delivery_charge && (
+                        <div className="flex justify-between text-sm md:text-base text-gray-600">
+                          <p>Delivery Charge</p>
+                          <p>₹{parseFloat(data?.data?.delivery_charge || "0").toFixed(2)}</p>
+                        </div>
+                      )}
+
+
+                      {/* COD Charge */}
+                      {parseFloat(data?.data?.cod_charges || "0") > 0 && (
+                        <div className="flex justify-between text-sm md:text-base text-gray-600">
+                          <p>COD Charges</p>
+                          <p>₹{parseFloat(data?.data?.cod_charges || "0").toFixed(2)}</p>
+                        </div>
+                      )}
+
+                      {/* Delivery Discount (if available) */}
+                      {parseFloat(data?.data?.delivery_discount || "0") > 0 && (
+                        <div className="flex justify-between text-sm md:text-base text-gray-600">
+                          <p>Delivery Discount</p>
+                          <p className="text-red-500">-₹{data?.data.delivery_discount}</p>
+                        </div>
+                      )}
+                      {/* Discount */}
+                      {data?.data?.discount && data?.data?.discount > 0 && (
+                        <div className="flex justify-between text-sm md:text-base text-gray-600">
+                          <p>Discount</p>
+                          <p className="text-red-500">
+                            -₹{parseFloat(data?.data?.discount || "0").toFixed(2)}
+                          </p>
+                        </div>
+                      )}
+
+
+                      <hr className="my-2 border-gray-300" />
+
+                      {/* Total */}
+                      <div className="flex justify-between text-base md:text-lg font-semibold text-gray-900">
+                        <p>Total</p>
+                        <p>₹{parseFloat(data?.data?.total_amount || "0").toFixed(2)}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Payment Status */}
+                  <div className="flex justify-between items-center">
+                    <span className="text-base font-medium">Payment Status</span>
+                    <div className={`px-3 py-1 text-sm rounded-lg uppercase font-semibold tracking-wide 
+            ${data?.data?.payment_status === 'paid' ? 'bg-green-200 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                      {data?.data?.payment_status}
+                    </div>
+                  </div>
+
+
+                  {/* Dates */}
+                  <div className="flex justify-between gap-2 flex-wrap text-sm text-gray-500 mt-1 mb-2">
+                    <p className='font-bold text-black'>Created: <span className='text-gray-500'>{formatDateTime(data?.data?.created_at)}</span></p>
+                    <p className='font-bold text-black'>Updated: <span className='text-gray-500'>{formatDateTime(data?.data?.updated_at)}</span></p>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+
+            {/* Shiprocket Actions */}
+            {data?.data?.delivery_partner === 'shiprocket' && data?.data?.status === 'Pending' && (
+              <>
+                <div className="w-full bg-white rounded-xl p-2  shadow-sm mt-5">
+
+                  {/* Title */}
+                  <h4 className="font-semibold text-[15px] text-gray-800 mb-3">
+                    Shiprocket
+                  </h4>
+
+                  {/* Row: Date + Button */}
+                  <div className="flex items-center justify-between gap-3">
+
+                    {/* Pickup Date Input */}
+                    <div className="flex flex-col w-1/2">
+                      <label
+                        htmlFor="pickup-date"
+                        className="text-[13px] text-gray-600 mb-1 font-medium"
                       >
-                        Request Pickup
+                        Pickup Date
+                      </label>
+
+                      <input
+                        id="pickup-date"
+                        type="date"
+                        className="border border-gray-300 rounded-lg px-3 py-2 text-sm
+               focus:outline-none focus:ring-2 focus:ring-indigo-500
+               disabled:bg-gray-100 disabled:text-gray-400"
+                        value={pickupDate}
+                        min={minDate}
+                        max={maxDate}
+                        onChange={(e) => setPickupDate(e.target.value)}
+                      />
+                    </div>
+
+                    {/* Button */}
+                    <Button
+                      className="h-[42px] px-5 bg-indigo-600 text-white rounded-lg font-medium  mt-4
+               hover:bg-indigo-700 transition disabled:bg-gray-300 whitespace-nowrap"
+                      onClick={() => handleShiprocketAction("pickup", pickupDate)}
+                      disabled={loadingAction || data?.data?.status !== "Pending"}
+                    >
+                      Request Pickup
+                    </Button>
+                  </div>
+                </div>
+              </>
+            )}
+
+
+            {(
+              data?.data?.delivery_partner === 'shiprocket' &&
+              (
+                data?.data?.status === 'Shipped' ||
+                data?.data?.status === 'Out For Delivery' ||
+                data?.data?.status === 'Processing'
+              )
+            ) && (
+                <>
+                  {/* Shiprocket Actions */}
+                  <div className="space-y-2 mt-4">
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      <Button
+                        onClick={() => handleShiprocketAction("manifest")}
+                        disabled={data?.data?.status === 'Pending' || loadingAction}
+                      >
+                        Generate Manifest
+                      </Button>
+                      <Button
+                        onClick={() => handleShiprocketAction("label")}
+                        disabled={data?.data?.status === 'Pending' || loadingAction}
+                      >
+                        Generate Label
+                      </Button>
+                      <Button
+                        onClick={() => handleShiprocketAction("invoice")}
+                        disabled={data?.data?.status === 'Pending' || loadingAction}
+                      >
+                        Generate Invoice
                       </Button>
                     </div>
                   </div>
+
+                  {/* Show Links */}
+                  <div className="mt-4">
+                    {pdfLinks.manifest && (
+                      <p>
+                        Manifest:{" "}
+                        <a
+                          href={pdfLinks.manifest}
+                          target="_blank"
+                          className="text-blue-600 underline"
+                        >
+                          Download
+                        </a>
+                      </p>
+                    )}
+                    {pdfLinks.label && (
+                      <p>
+                        Label:{" "}
+                        <a
+                          href={pdfLinks.label}
+                          target="_blank"
+                          className="text-blue-600 underline"
+                        >
+                          Download
+                        </a>
+                      </p>
+                    )}
+                    {pdfLinks.invoice && (
+                      <p>
+                        Invoice:{" "}
+                        <a
+                          href={pdfLinks.invoice}
+                          target="_blank"
+                          className="text-blue-600 underline"
+                        >
+                          Download
+                        </a>
+                      </p>
+                    )}
+                  </div>
+
                 </>
               )}
+          </>
+        )}
 
 
-              {(
-                data?.data?.delivery_partner === 'shiprocket' &&
-                (
-                  data?.data?.status === 'Shipped' ||
-                  data?.data?.status === 'Out For Delivery' ||
-                  data?.data?.status === 'Processing'
-                )
-              ) && (
-                  <>
-                    {/* Shiprocket Actions */}
-                    <div className="space-y-2 mt-4">
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        <Button
-                          onClick={() => handleShiprocketAction("manifest")}
-                          disabled={data?.data?.status === 'Pending' || loadingAction}
-                        >
-                          Generate Manifest
-                        </Button>
-                        <Button
-                          onClick={() => handleShiprocketAction("label")}
-                          disabled={data?.data?.status === 'Pending' || loadingAction}
-                        >
-                          Generate Label
-                        </Button>
-                        <Button
-                          onClick={() => handleShiprocketAction("invoice")}
-                          disabled={data?.data?.status === 'Pending' || loadingAction}
-                        >
-                          Generate Invoice
-                        </Button>
-                      </div>
-                    </div>
-
-                    {/* Show Links */}
-                    <div className="mt-4">
-                      {pdfLinks.manifest && (
-                        <p>
-                          Manifest:{" "}
-                          <a
-                            href={pdfLinks.manifest}
-                            target="_blank"
-                            className="text-blue-600 underline"
-                          >
-                            Download
-                          </a>
-                        </p>
-                      )}
-                      {pdfLinks.label && (
-                        <p>
-                          Label:{" "}
-                          <a
-                            href={pdfLinks.label}
-                            target="_blank"
-                            className="text-blue-600 underline"
-                          >
-                            Download
-                          </a>
-                        </p>
-                      )}
-                      {pdfLinks.invoice && (
-                        <p>
-                          Invoice:{" "}
-                          <a
-                            href={pdfLinks.invoice}
-                            target="_blank"
-                            className="text-blue-600 underline"
-                          >
-                            Download
-                          </a>
-                        </p>
-                      )}
-                    </div>
-
-                  </>
-                )}
-            </>
-          )}
-
-
-          <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-            <Button onClick={onClose}>Close</Button>
-          </div>
+        <div className="mt-6 pt-4 border-t border-gray-100 flex justify-end">
+          <Button onClick={onClose} variant="secondary">Close</Button>
         </div>
       </div>
-
     </div>
   );
 }

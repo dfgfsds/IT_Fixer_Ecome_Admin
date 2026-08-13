@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Download, Plus } from 'lucide-react';
+import { Download, Plus, Package } from 'lucide-react';
 import Button from '../../components/Button';
 import Search from '../../components/Search';
 import ProductModal from '../../components/products/ProductModal';
 import ProductsTable from '../../components/products/ProductsTable';
 import ProductDetailsModal from '../../components/products/ProductDetailsModal';
-import { Product, ProductForm } from '../../types/product';
-import { getAllProductVariantSizeApi, getProductApi } from '../../Api-Service/Apis';
+import { Product } from '../../types/product';
+import { getAllProductVariantSizeApi } from '../../Api-Service/Apis';
 import { useQuery } from '@tanstack/react-query';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-
+import { toast } from 'react-toastify';
 
 export default function Products() {
   const { id } = useParams<{ id: string }>();
@@ -21,25 +21,18 @@ export default function Products() {
   const [productForm, setProductForm] = useState<any>();
   const [searchTerm, setSearchTerm] = useState('');
 
-  // const { data,isLoading }:any =useQuery({
-  //   queryKey:['getProductData'],
-  //   queryFn:()=>getProductApi('?vendor_id=9')
-  // });
-
   const { data, isLoading }: any = useQuery({
     queryKey: ['getAllProductVariantSizeData', id],
     queryFn: () => getAllProductVariantSizeApi(`?vendor_id=${id}`)
   });
 
-  console.log(data?.data)
   const handleAddProduct = () => {
-    // setProductForm(initialProductForm);
-    // setIsEditing(false);
+    setProductForm(null);
+    setIsEditing(false);
     setIsModalOpen(true);
   };
 
   const handleEditProduct = (product: Product) => {
-    console.log(product)
     setProductForm(product);
     setIsEditing(true);
     setIsModalOpen(true);
@@ -52,106 +45,99 @@ export default function Products() {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setProductForm('');
+    setProductForm(null);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(productForm);
     closeModal();
   };
 
-
-
-  const filteredProducts: Product[] = data?.data?.filter((product: Product) => {
-    const term = searchTerm.toLowerCase();
+  const filteredProducts: Product[] = data?.data?.filter((product: any) => {
+    const term: any = searchTerm.toLowerCase();
     return (
       product?.name?.toLowerCase()?.includes(term) ||
       product?.description?.toLowerCase()?.includes(term) ||
-      product?.price?.toString()?.includes(term)
+      product?.price?.toString()?.includes(term) ||
+      product?.brand_name?.toLowerCase()?.includes(term)
     );
   }) || [];
 
   const handleDownloadExcel = () => {
     if (!filteredProducts.length) {
-      alert('No products to download!');
+      toast.info('No products to download!');
       return;
     }
 
-    // 1. Create worksheet
     const worksheet = XLSX.utils.json_to_sheet(filteredProducts);
-
-    // 2. Create workbook and add worksheet
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Products');
-
-    // 3. Write workbook to binary
     const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-
-    // 4. Create a blob and trigger download
-    const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    saveAs(data, 'products.xlsx');
+    const blobData = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(blobData, 'products.xlsx');
   };
 
   return (
-    <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-      <div className="px-4 sm:px-0">
-        <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto">
-            <h1 className="text-2xl font-semibold text-gray-900">Products</h1>
-            <p className="mt-2 text-sm text-gray-700">
-              Manage your store's products and inventory
-            </p>
-          </div>
-          <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-            <Button onClick={handleAddProduct} className='flex'>
-              <Plus className="h-4 w-4 mr-2 my-auto" />
-              Add Product
-            </Button>
-          </div>
+    <div className="max-w-7xl mx-auto space-y-6">
+      {/* Top Header Card */}
+      <div className="sm:flex sm:items-center sm:justify-between bg-white p-6 rounded-2xl border border-gray-200/80 shadow-2xs">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Products</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            Manage your store's products, pricing, stock levels and varieties
+          </p>
         </div>
-
-        <div className="mt-4 flex justify-between flex-wrap">
-          <Search
-            value={searchTerm}
-            onChange={setSearchTerm}
-            // placeholder="Search products by name, description, color, or price..."
-            placeholder="Search products by name"
-
-          />
-          <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-            <Button onClick={handleDownloadExcel} className='flex'>
-              <Download className="h-4 w-4 mr-2 my-auto" />
-              Excel Download
-            </Button>
+        <div className="mt-4 sm:mt-0 flex items-center gap-3">
+          <div className="flex items-center gap-2 bg-amber-50 text-amber-800 px-3.5 py-1.5 rounded-full text-xs font-semibold border border-amber-200/60">
+            <Package className="w-4 h-4 text-[#e2ba2b]" />
+            <span>{filteredProducts?.length || 0} Products</span>
           </div>
+          <Button onClick={handleAddProduct}>
+            <Plus className="h-4 w-4 mr-2" />
+            Add Product
+          </Button>
         </div>
-
-        {isModalOpen && (
-          <ProductModal
-            productForm={productForm}
-            onClose={closeModal}
-            onSubmit={handleSubmit}
-            onChange={(updates) => setProductForm('')}
-
-          />
-        )}
-
-        {selectedProduct && (
-          <ProductDetailsModal
-            product={selectedProduct}
-            onClose={() => setSelectedProduct(null)}
-            onEdit={() => handleEditProduct(selectedProduct)}
-          />
-        )}
-
-        <ProductsTable
-          isLoading={isLoading}
-          products={filteredProducts || []}
-          onEdit={handleEditProduct}
-          onView={handleViewProduct}
-        />
       </div>
+
+      {/* Control Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-gray-200/80 shadow-2xs">
+        <Search
+          value={searchTerm}
+          onChange={setSearchTerm}
+          placeholder="Search products by name, brand or price..."
+          className="w-full sm:w-80"
+        />
+        <Button variant="outline" onClick={handleDownloadExcel}>
+          <Download className="h-4 w-4 mr-2" />
+          Export Excel
+        </Button>
+      </div>
+
+      {/* Modals */}
+      {isModalOpen && (
+        <ProductModal
+          productForm={productForm}
+          onClose={closeModal}
+          onSubmit={handleSubmit}
+          onChange={(updates) => setProductForm(updates)}
+        />
+      )}
+
+      {selectedProduct && (
+        <ProductDetailsModal
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+          onEdit={() => handleEditProduct(selectedProduct)}
+        />
+      )}
+
+      {/* Table */}
+      <ProductsTable
+        isLoading={isLoading}
+        products={filteredProducts || []}
+        onEdit={handleEditProduct}
+        onView={handleViewProduct}
+      />
     </div>
   );
 }
