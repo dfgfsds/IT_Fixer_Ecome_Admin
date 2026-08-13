@@ -1,5 +1,7 @@
 export const baseUrl = 'https://ecomapi.ftdigitalsolutions.org';
 // export const baseUrl = 'https://test-ecomapi.ftdigitalsolutions.org';
+export const baseUrlText = 'https://test-ecomapi.ftdigitalsolutions.org';
+
 // const baseUrl ='http://82.29.161.36'
 
 const multiVendor = `${baseUrl}/create_multivendor_users/`;
@@ -38,10 +40,10 @@ const domainThemeUpdate = `${baseUrl}/domain_theme_update_api/`;
 const vendorLogin = `${baseUrl}/vendor_user_login/`;
 const vendorOtherDetails = `${baseUrl}/vendor-other-details/`;
 const vendorUserLogin = `${baseUrl}/vendor_user_login/`;
-const attributes = `${baseUrl}/pc-builder/attributes/`;
-const categoryAttributes = `${baseUrl}/pc-builder/category-attributes/`;
-const pcComponents = `${baseUrl}/pc-builder/components/`;
-const pcCategories = `${baseUrl}/pc-builder/categories/`;
+const attributes = `${baseUrlText}/pc-builder/attributes/`;
+const categoryAttributes = `${baseUrlText}/pc-builder/category-attributes/`;
+const pcComponents = `${baseUrlText}/pc-builder/components/`;
+const pcCategories = `${baseUrlText}/pc-builder/categories/`;
 
 export default {
     multiVendor,
