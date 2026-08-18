@@ -44,6 +44,8 @@ const attributes = `${baseUrlText}/pc-builder/attributes/`;
 const categoryAttributes = `${baseUrlText}/pc-builder/category-attributes/`;
 const pcComponents = `${baseUrlText}/pc-builder/components/`;
 const pcCategories = `${baseUrlText}/pc-builder/categories/`;
+const pcBuilds = `${baseUrlText}/pc-builder/builds/`;
+const pcQuotations = `${baseUrlText}/pc-builder/quotations/`;
 
 export default {
     multiVendor,
@@ -85,4 +87,6 @@ export default {
     categoryAttributes,
     pcComponents,
     pcCategories,
+    pcBuilds,
+    pcQuotations,
 };
