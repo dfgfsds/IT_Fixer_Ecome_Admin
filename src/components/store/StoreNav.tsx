@@ -17,6 +17,8 @@ import {
   ChevronRight,
   ChevronDown,
   Wrench,
+  Monitor,
+  FileText,
 } from 'lucide-react';
 import Logo from '../../assets/image/Logo.png';
 
@@ -31,7 +33,9 @@ export default function StoreNav() {
     location.pathname.includes('/builder-categories') ||
     location.pathname.includes('/attributes') ||
     location.pathname.includes('/category-attributes') ||
-    location.pathname.includes('/builder-components');
+    location.pathname.includes('/builder-components') ||
+    location.pathname.includes('/pc-builds') ||
+    location.pathname.includes('/pc-quotations');
 
   const [isPcBuilderOpen, setIsPcBuilderOpen] = useState(isPcBuilderActive);
 
@@ -51,6 +55,8 @@ export default function StoreNav() {
     { to: `/store/${id}/attributes`, icon: Sliders, label: 'Attributes' },
     { to: `/store/${id}/category-attributes`, icon: Layers, label: 'Category Attributes' },
     { to: `/store/${id}/builder-components`, icon: Cpu, label: 'PC Components' },
+    { to: `/store/${id}/pc-builds`, icon: Monitor, label: 'PC Builds' },
+    { to: `/store/${id}/pc-quotations`, icon: FileText, label: 'Quotations' },
   ];
 
   return (

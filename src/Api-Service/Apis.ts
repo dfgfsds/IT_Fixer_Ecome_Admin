@@ -434,6 +434,18 @@ export const deletePcCategoryApi = async (id: string) => {
   return axios.delete(`${ApiUrls.pcCategories}${formattedId}`);
 };
 
+// PC BUILDER BUILDS APIS
+export const getPcBuildsApi = async (query: string = '') => {
+  const formattedQuery = query ? (query.startsWith('?') || query.startsWith('/') ? query : `?${query}`) : '';
+  return axios.get(`${ApiUrls.pcBuilds}${formattedQuery}`);
+};
+
+// PC BUILDER QUOTATIONS APIS
+export const getPcQuotationsApi = async (query: string = '') => {
+  const formattedQuery = query ? (query.startsWith('?') || query.startsWith('/') ? query : `?${query}`) : '';
+  return axios.get(`${ApiUrls.pcQuotations}${formattedQuery}`);
+};
+
 
 
 
