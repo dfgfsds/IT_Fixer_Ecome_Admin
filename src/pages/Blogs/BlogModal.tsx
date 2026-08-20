@@ -61,9 +61,10 @@ function BlogModal({ open, close, userId, editData }: any) {
                 vendor: id,
                 user: userId,
                 likes: 0,
+              
             };
             if (editData) {
-                const response = await putBlogsApi(`${editData?.id}/`, payload);
+                const response = await putBlogsApi(`${editData?.id}/`, {...payload, updated_by: "vendor",});
                 if (response) {
                     reset();
                     close();
@@ -71,7 +72,7 @@ function BlogModal({ open, close, userId, editData }: any) {
                     queryClient.invalidateQueries(['getBlogsData'] as InvalidateQueryFilters);
                 }
             } else {
-                const response = await postBlogsApi("", payload);
+                const response = await postBlogsApi("",  {...payload, created_by: "vendor",});
                 if (response) {
                     reset();
                     close();
@@ -80,7 +81,13 @@ function BlogModal({ open, close, userId, editData }: any) {
                 }
             }
         } catch (err: any) {
-            setApiError(err?.response?.data?.message || "Failed to save blog. Please try again.");
+            const responseData = err?.response?.data;
+            const validationErrors = responseData?.data?.errors || responseData?.errors;
+            const errorMessage = validationErrors
+                ? Object.values(validationErrors).flat().join(" ")
+                : responseData?.message;
+
+            setApiError(errorMessage || "Failed to save blog. Please try again.");
         } finally {
             setLoading(false);
         }
