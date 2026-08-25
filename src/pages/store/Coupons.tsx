@@ -17,7 +17,7 @@ function CouponsMain(props: Props) {
     const { } = props
 
     return (
-      <div className="max-w-7xl mx-auto space-y-6">
+        <div className="max-w-7xl mx-auto space-y-6">
             <Coupons userId={vendorSiteDetails?.vendor?.user} />
         </div>
     )

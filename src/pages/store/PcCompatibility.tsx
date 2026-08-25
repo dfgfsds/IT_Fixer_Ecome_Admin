@@ -67,7 +67,7 @@ export default function PcCompatibility() {
   // Build query string
   const buildQueryString = () => {
     const params = new URLSearchParams();
-    params.append('per_page', String(itemsPerPage));
+    params.append('page_size', String(itemsPerPage));
     params.append('current_page', String(currentPage));
     if (searchTerm.trim()) params.append('search', searchTerm.trim());
     if (baseCategoryFilter) params.append('base_category_id', baseCategoryFilter);
@@ -326,6 +326,7 @@ export default function PcCompatibility() {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50/75 text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                  <th className="py-3.5 px-5">Sr. No.</th>
                   <th className="py-3.5 px-5">Base Category</th>
                   <th className="py-3.5 px-3 text-center">Relation</th>
                   <th className="py-3.5 px-5">Target Category</th>
@@ -334,13 +335,18 @@ export default function PcCompatibility() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 text-sm font-medium">
-                {filteredRules.map((rule) => {
+                {filteredRules.map((rule, index: number) => {
                   const baseCatName = rule.base_category?.name || 'Base Category';
                   const targetCatName = rule.target_category?.name || 'Target Category';
                   const conditionsList = rule.conditions || [];
 
                   return (
                     <tr key={rule.id} className="hover:bg-amber-50/30 transition-colors">
+                      {/* Sr. No. */}
+                      <td className="py-4 px-5 align-middle">
+                        <span className="font-medium text-gray-900">{index + 1}</span>
+                      </td>
+
                       {/* Base Category */}
                       <td className="py-4 px-5 align-middle">
                         <div className="flex items-center gap-3">

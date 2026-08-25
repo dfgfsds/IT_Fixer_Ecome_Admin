@@ -557,6 +557,7 @@ import { postCouponApi, updateCouponApi } from '../../Api-Service/authendication
 import { InvalidateQueryFilters, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { getAllProductVariantSizeApi, getCategoriesWithSubcategoriesApi, getUserApi } from '../../Api-Service/Apis';
+import { X } from 'lucide-react';
 
 // ---------- Validation Schema ----------
 const CouponSchema = Yup.object().shape({
@@ -871,7 +872,7 @@ function CouponModal({ close, editData, setEditData }: any) {
         close();
       }
     } catch (error: any) {
-      setApiError(error?.response?.data?.message || 'Failed to save coupon. Please try again.');
+      setApiError(error?.response?.data?.message || error?.response?.data?.error || 'Failed to save coupon. Please try again.');
     }
   };
 
@@ -1021,7 +1022,7 @@ function CouponModal({ close, editData, setEditData }: any) {
                 <input
                   type="checkbox"
                   {...register(item.name)}
-                  // keep HTML checkbox behavior; react-hook-form will manage value
+                // keep HTML checkbox behavior; react-hook-form will manage value
                 />
                 <span>{item.label}</span>
               </label>
