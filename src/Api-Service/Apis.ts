@@ -11,9 +11,9 @@ export const getMultiVendorUserApi = async (query: any) => {
 };
 
 // CREATE VENDOR USERS
-export const postVendorUsersCreateApi = async (query: any,payload:any) => {
+export const postVendorUsersCreateApi = async (query: any, payload: any) => {
   return axios.post(
-    `${ApiUrls.createVendorUsers}${query}`,payload
+    `${ApiUrls.createVendorUsers}${query}`, payload
   );
 };
 
@@ -36,23 +36,23 @@ export const getProductApi = async (query: any) => {
 };
 
 // POST PRODUCTS VARIANT SIZE APIS 
-export const postProductVariantSizesCreateApi = async (query: any,payload:any) => {
+export const postProductVariantSizesCreateApi = async (query: any, payload: any) => {
   return axios.post(
-    `${ApiUrls.productVariantSizeCreate}${query}`,payload
+    `${ApiUrls.productVariantSizeCreate}${query}`, payload
   );
 };
 
 // UPDATE PRODUCTS VARIANT SIZE APIS 
-export const updateProductVariantSizesapi = async (query: any,payload:any) => {
+export const updateProductVariantSizesapi = async (query: any, payload: any) => {
   return axios.put(
-    `${ApiUrls.updateProductVariantSize}${query}/`,payload
+    `${ApiUrls.updateProductVariantSize}${query}/`, payload
   );
 };
 
 // POST PRODUCTS APIS 
-export const postProductCreateApi = async (query: any,payload:any) => {
+export const postProductCreateApi = async (query: any, payload: any) => {
   return axios.post(
-    `${ApiUrls.productVariantSizeCreate}${query}`,payload
+    `${ApiUrls.productVariantSizeCreate}${query}`, payload
   );
 };
 
@@ -65,20 +65,20 @@ export const getAllProductVariantSizeApi = async (query: any) => {
 };
 
 // DELETE  PRODUCTS VARIANT SIZE  APIS 
-export const deleteAllProductVariantSizeApi = async (query: any,payload:any) => {
+export const deleteAllProductVariantSizeApi = async (query: any, payload: any) => {
   const formattedQuery = query?.endsWith('/') ? query : `${query}/`;
   return axios.delete(
-    `${ApiUrls.product}${formattedQuery}`,{
-      data: payload, 
-    }
+    `${ApiUrls.product}${formattedQuery}`, {
+    data: payload,
+  }
   );
 };
 
 // DELETE  PRODUCTS VARIANT SIZE  APIS 
-export const productStatusUpdateApi = async (query: any,payload:any) => {
+export const productStatusUpdateApi = async (query: any, payload: any) => {
   const formattedQuery = query?.endsWith('/') ? query : `${query}/`;
   return axios.put(
-    `${ApiUrls.product}${formattedQuery}`,payload
+    `${ApiUrls.product}${formattedQuery}`, payload
   );
 };
 
@@ -104,9 +104,9 @@ export const getVendorOrderApi = async (query: any) => {
 };
 
 // PATCH ORDER STATUS API  
-export const patchOrderStatusApi = async (query: any,payload:any) => {
+export const patchOrderStatusApi = async (query: any, payload: any) => {
   return axios.patch(
-    `${ApiUrls.vendorOrder}${query}`,payload
+    `${ApiUrls.vendorOrder}${query}`, payload
   );
 };
 
@@ -124,21 +124,21 @@ export const getProductcategoriesApi = async (query: any) => {
 };
 
 // POST CATEGORIES APIS
-export const postCategoriesApi = async (query: any,payload:any) => {
+export const postCategoriesApi = async (query: any, payload: any) => {
   const formattedQuery = query.endsWith('/') ? query : `${query}`;
-  return axios.post(`${ApiUrls.categories}${formattedQuery}`,payload);
+  return axios.post(`${ApiUrls.categories}${formattedQuery}`, payload);
 };
 
 // UPDATE CATEGORIES APIS
-export const updateCategoriesApi = async (query: any,payload:any) => {
+export const updateCategoriesApi = async (query: any, payload: any) => {
   // const formattedQuery = query?.endsWith('/') ? query : `${query}/`;
-  return axios.put(`${ApiUrls?.categories}${query}`,payload);
+  return axios.put(`${ApiUrls?.categories}${query}`, payload);
 };
 
 // DELETE CATEGORIES APIS
-export const deleteCategoriesApi = async (query: any,payload:any) => {
+export const deleteCategoriesApi = async (query: any, payload: any) => {
   const formattedQuery = query.endsWith('/') ? query : `${query}`;
-  return axios.delete(`${ApiUrls.categories}${formattedQuery}`,{data:payload});
+  return axios.delete(`${ApiUrls.categories}${formattedQuery}`, { data: payload });
 };
 
 
@@ -203,7 +203,7 @@ export const getAddressApi = async (query: any) => {
 // CREATE ADDRESS APIS 
 export const postAddressCreateApi = async (query: any, payload: any) => {
   return axios.post(
-      `${ApiUrls.vendorAddress}${query}`, payload
+    `${ApiUrls.vendorAddress}${query}`, payload
   );
 };
 
@@ -211,14 +211,14 @@ export const postAddressCreateApi = async (query: any, payload: any) => {
 // UPDATE ADDRESS APIS 
 export const updateAddressApi = async (query: any, payload: any) => {
   return axios.put(
-      `${ApiUrls.vendorAddress}${query}`, payload
+    `${ApiUrls.vendorAddress}${query}`, payload
   );
 };
 
 
 // DELETE ADDRESS APIS 
 export const deleteAddressApi = async (query: any, payload: any) => {
-  return axios.delete(`${ApiUrls.vendorAddress}${query}`, { data: payload }); 
+  return axios.delete(`${ApiUrls.vendorAddress}${query}`, { data: payload });
 };
 
 // GET VENDOR WITH SITE DETAILS
@@ -228,22 +228,22 @@ export const getVendorWithSiteDetailsApi = async (query: any) => {
 }
 
 // UPDATE VENDOR WITH SITE DETAILS
-export const putVendorWithSiteDetailsApi = async (query: any,payload:any) => {
+export const putVendorWithSiteDetailsApi = async (query: any, payload: any) => {
   const formattedQuery = query.endsWith('/') ? query : `${query}/`;
-  return axios.put(`${ApiUrls.updateVendorSiteDetails}${formattedQuery}`,payload);
+  return axios.put(`${ApiUrls.updateVendorSiteDetails}${formattedQuery}`, payload);
 }
 
 // UPDATE SELECTED ADDRESS
 export const updateSelectedAddressApi = async (query: any, payload: any) => {
   return axios.patch(
-      `${ApiUrls.updateSelectedAddress}${query}`, payload
+    `${ApiUrls.updateSelectedAddress}${query}`, payload
   );
 }
 
 // PUT VENDORS
 export const putVendorsApi = async (query: any, payload: any) => {
   return axios.put(
-      `${ApiUrls.vendors}${query}`, payload
+    `${ApiUrls.vendors}${query}`, payload
   );
 }
 
@@ -251,7 +251,7 @@ export const putVendorsApi = async (query: any, payload: any) => {
 export const updateVendorSidePolicesApi = async (query: any, payload: any) => {
   const formattedQuery = query.endsWith('/') ? query : `${query}/`;
   return axios.patch(
-      `${ApiUrls.vendorSitePolicies}${formattedQuery}`, payload
+    `${ApiUrls.vendorSitePolicies}${formattedQuery}`, payload
   );
 }
 
@@ -259,7 +259,7 @@ export const updateVendorSidePolicesApi = async (query: any, payload: any) => {
 export const getVendorSidePolicesApi = async (query: any) => {
   const formattedQuery = query.endsWith('/') ? query : `${query}/`;
   return axios.get(
-      `${ApiUrls.vendorSitePolicies}${formattedQuery}`
+    `${ApiUrls.vendorSitePolicies}${formattedQuery}`
   );
 }
 
@@ -268,14 +268,14 @@ export const getVendorSidePolicesApi = async (query: any) => {
 // POST DTDC DELIVERY POST API 
 export const postDtdcCreateApi = async (query: any, payload: any) => {
   return axios.post(
-      `${ApiUrls.dtdcDelivery}${query}`, payload
+    `${ApiUrls.dtdcDelivery}${query}`, payload
   );
 };
 
 // UPDATE DTDC DELIVERY POST API 
 export const updateDtdcCreateApi = async (query: any, payload: any) => {
   return axios.put(
-      `${ApiUrls.dtdcDelivery}${query}`, payload
+    `${ApiUrls.dtdcDelivery}${query}`, payload
   );
 };
 
@@ -283,7 +283,7 @@ export const updateDtdcCreateApi = async (query: any, payload: any) => {
 // POST REFUND  API 
 export const postRefundApi = async (query: any, payload: any) => {
   return axios.post(
-      `${ApiUrls.refund}${query}`, payload
+    `${ApiUrls.refund}${query}`, payload
   );
 };
 
@@ -292,14 +292,14 @@ export const postRefundApi = async (query: any, payload: any) => {
 // POST BLOGS  API 
 export const postBlogsApi = async (query: any, payload: any) => {
   return axios.post(
-      `${ApiUrls.blog}${query}`, payload
+    `${ApiUrls.blog}${query}`, payload
   );
 };
 
 // PUT BLOGS  API 
 export const putBlogsApi = async (query: any, payload: any) => {
   return axios.put(
-      `${ApiUrls.blog}${query}`, payload
+    `${ApiUrls.blog}${query}`, payload
   );
 };
 
@@ -308,7 +308,7 @@ export const putBlogsApi = async (query: any, payload: any) => {
 export const getBlogsApi = async (query: any) => {
   const formattedQuery = query.endsWith('/') ? query : `${query}`;
   return axios.get(
-      `${ApiUrls.blog}${formattedQuery}`
+    `${ApiUrls.blog}${formattedQuery}`
   );
 }
 
@@ -316,7 +316,7 @@ export const getBlogsApi = async (query: any) => {
 export const deleteBlogsApi = async (query: any) => {
   const formattedQuery = query?.endsWith('/') ? query : `${query}`;
   return axios.delete(
-      `${ApiUrls?.blog}${formattedQuery}`
+    `${ApiUrls?.blog}${formattedQuery}`
   );
 }
 
@@ -348,9 +348,9 @@ export const deleteCouponApi = async (query: any, payload: any) => {
 };
 
 // UPDATE VENDOR OTHER DETAILS APIS 
-export const updateVendorOtherDetailsApi = async (query: any,payload:any) => {
+export const updateVendorOtherDetailsApi = async (query: any, payload: any) => {
   return axios.patch(
-    `${ApiUrls.vendorOtherDetails}${query}`,payload
+    `${ApiUrls.vendorOtherDetails}${query}`, payload
   );
 };
 
@@ -446,8 +446,29 @@ export const getPcQuotationsApi = async (query: string = '') => {
   return axios.get(`${ApiUrls.pcQuotations}${formattedQuery}`);
 };
 
+// PC BUILDER COMPATIBILITY RULES APIS
+export const getPcCompatibilityRulesApi = async (query: string = '') => {
+  const formattedQuery = query ? (query.startsWith('?') ? query : `?${query}`) : '';
+  return axios.get(`${ApiUrls.pcCompatibilityRules}${formattedQuery}`);
+};
 
+export const postPcCompatibilityRuleCreateApi = async (payload: any) => {
+  return axios.post(`${ApiUrls.pcCompatibilityRules}`, payload);
+};
 
+export const updatePcCompatibilityRuleApi = async (id: string, payload: any) => {
+  const cleanId = String(id).replace(/^\/+|\/+$/g, '');
+  return axios.put(`${ApiUrls.pcCompatibilityRules}${cleanId}/`, payload);
+};
 
+export const deletePcCompatibilityRuleApi = async (id: string) => {
+  const cleanId = String(id).replace(/^\/+|\/+$/g, '');
+  return axios.delete(`${ApiUrls.pcCompatibilityRules}${cleanId}/`);
+};
 
-
+// PC BUILDER COMPATIBILITY CHECK APIS
+export const checkPcCompatibilityApi = async (componentId: string, categoryId: string) => {
+  const cleanComponentId = String(componentId).replace(/^\/+|\/+$/g, '');
+  const cleanCategoryId = String(categoryId).replace(/^\/+|\/+$/g, '');
+  return axios.get(`${ApiUrls.pcCompatibilityCheck}${cleanComponentId}/?category_id=${cleanCategoryId}`);
+};

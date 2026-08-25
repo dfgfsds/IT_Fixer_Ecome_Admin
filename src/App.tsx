@@ -30,6 +30,7 @@ import BuilderComponents from './pages/store/BuilderComponents';
 import BuilderCategories from './pages/store/BuilderCategories';
 import PcBuilds from './pages/store/PcBuilds';
 import PcQuotations from './pages/store/PcQuotations';
+import PcCompatibility from './pages/store/PcCompatibility';
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
               <Route path="attributes" element={<Attributes />} />
               <Route path="category-attributes" element={<CategoryAttributes />} />
               <Route path="builder-components" element={<BuilderComponents />} />
+              <Route path="pc-compatibility" element={<PcCompatibility />} />
               <Route path="pc-builds" element={<PcBuilds />} />
               <Route path="pc-quotations" element={<PcQuotations />} />
               <Route path="banner" element={<Banner />} />

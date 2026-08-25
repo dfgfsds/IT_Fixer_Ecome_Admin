@@ -27,7 +27,7 @@ function BlogModal({ open, close, userId, editData }: any) {
         author: Yup.string().required("Author is required"),
     });
 
-    const {
+    const { 
         register,
         handleSubmit,
         reset,
