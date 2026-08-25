@@ -46,6 +46,8 @@ const pcComponents = `${baseUrlText}/pc-builder/components/`;
 const pcCategories = `${baseUrlText}/pc-builder/categories/`;
 const pcBuilds = `${baseUrlText}/pc-builder/builds/`;
 const pcQuotations = `${baseUrlText}/pc-builder/quotations/`;
+const pcCompatibilityRules = `${baseUrlText}/pc-builder/compatibility/rules/`;
+const pcCompatibilityCheck = `${baseUrlText}/pc-builder/compatibility/`;
 
 export default {
     multiVendor,
@@ -89,4 +91,6 @@ export default {
     pcCategories,
     pcBuilds,
     pcQuotations,
+    pcCompatibilityRules,
+    pcCompatibilityCheck,
 };
