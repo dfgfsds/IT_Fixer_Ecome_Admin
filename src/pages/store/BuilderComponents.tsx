@@ -46,8 +46,8 @@ export default function BuilderComponents() {
   // Construct Query String for PC Components API
   const buildQueryString = () => {
     const params = new URLSearchParams();
-    params.append('per_page', String(itemsPerPage));
-    params.append('current_page', String(currentPage));
+    params.append('page_size', String(itemsPerPage));
+    params.append('page', String(currentPage));
     if (searchTerm.trim()) params.append('search', searchTerm.trim());
     if (categoryFilter) params.append('category_id', categoryFilter);
     if (statusFilter) params.append('status', statusFilter);

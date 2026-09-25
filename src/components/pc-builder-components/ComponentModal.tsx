@@ -118,10 +118,15 @@ export default function ComponentModal({
     }
   }, [categoryId, categoryAttributesList, component]);
 
-  // Add Attribute Value Row
+  // Add Attribute Value Row (auto-selects first unused attribute)
   const handleAddAttributeRow = () => {
-    const defaultAttrId = availableAttributes?.[0]?.id || '';
-    setAttributeValues((prev) => [...prev, { attribute: defaultAttrId, value: '' }]);
+    const selectedAttrIds = attributeValues.map((av) => av.attribute).filter(Boolean);
+    const unusedAttr = availableAttributes.find((attr: any) => !selectedAttrIds.includes(attr.id));
+    if (!unusedAttr && availableAttributes.length > 0 && attributeValues.length >= availableAttributes.length) {
+      toast.info('All category attributes have already been added.');
+      return;
+    }
+    setAttributeValues((prev) => [...prev, { attribute: unusedAttr?.id || '', value: '' }]);
   };
 
   // Remove Attribute Value Row
@@ -168,6 +173,14 @@ export default function ComponentModal({
     // Filter out invalid empty rows
     const validAttrValues = attributeValues.filter((item) => item.attribute && item.value.trim() !== '');
 
+    // Check for duplicate attributes
+    const attrIds = validAttrValues.map((v) => v.attribute);
+    if (new Set(attrIds).size !== attrIds.length) {
+      setErrorMsg('Duplicate technical attributes detected. Each attribute can only be assigned once.');
+      setLoading(false);
+      return;
+    }
+
     const payload: PcComponentForm = {
       category_id: categoryId,
       brand: brand.trim(),
@@ -201,6 +214,11 @@ export default function ComponentModal({
       setLoading(false);
     }
   };
+
+  const isAllAttributesAdded =
+    availableAttributes.length > 0 &&
+    attributeValues.length >= availableAttributes.length &&
+    attributeValues.every((av) => Boolean(av.attribute));
 
   return (
     <div className="fixed inset-0 z-50 bg-gray-950/50 backdrop-blur-xs flex justify-center items-center p-4">
@@ -260,7 +278,7 @@ export default function ComponentModal({
                 type="text"
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
-                placeholder="e.g. NZXT, ASUS, Intel, AMD"
+                placeholder="e.g. ASUS, Corsair, NZXT, Intel"
                 required
                 className="w-full px-3.5 py-2.5 bg-white text-sm text-gray-900 border border-gray-300 rounded-xl focus:border-[#e2ba2b] focus:ring-2 focus:ring-[#e2ba2b]/20 focus:outline-none shadow-2xs font-medium"
               />
@@ -298,11 +316,11 @@ export default function ComponentModal({
               </label>
               <input
                 type="number"
+                min="0"
                 step="0.01"
-                min={0}
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
-                placeholder="9499.00"
+                placeholder="9999.00"
                 required
                 className="w-full px-3.5 py-2.5 bg-white text-sm text-gray-900 border border-gray-300 rounded-xl focus:border-[#e2ba2b] focus:ring-2 focus:ring-[#e2ba2b]/20 focus:outline-none shadow-2xs font-medium"
               />
@@ -310,11 +328,11 @@ export default function ComponentModal({
 
             <div>
               <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1.5">
-                Stock Quantity
+                Stock Quantity <span className="text-red-500">*</span>
               </label>
               <input
                 type="number"
-                min={0}
+                min="0"
                 value={stock}
                 onChange={(e) => setStock(e.target.value)}
                 placeholder="10"
@@ -367,8 +385,10 @@ export default function ComponentModal({
               </div>
               <button
                 type="button"
+                disabled={isAllAttributesAdded}
                 onClick={handleAddAttributeRow}
-                className="inline-flex items-center gap-1 text-xs font-bold text-[#c49e1e] hover:text-amber-700 bg-amber-50 hover:bg-amber-100 px-3 py-1.5 rounded-xl border border-amber-200/60 transition-colors"
+                title={isAllAttributesAdded ? 'All available attributes already added' : 'Add attribute value'}
+                className="inline-flex items-center gap-1 text-xs font-bold text-[#c49e1e] hover:text-amber-700 bg-amber-50 hover:bg-amber-100 disabled:opacity-40 disabled:cursor-not-allowed px-3 py-1.5 rounded-xl border border-amber-200/60 transition-colors"
               >
                 <Plus className="w-3.5 h-3.5" />
                 Add Value
@@ -391,6 +411,16 @@ export default function ComponentModal({
             ) : (
               <div className="space-y-2.5 max-h-52 overflow-y-auto pr-1">
                 {attributeValues.map((row, idx) => {
+                  // Filter attributes: only allow attributes not selected in other rows (plus current row's attribute)
+                  const selectedInOtherRows = attributeValues
+                    .filter((_, i) => i !== idx)
+                    .map((item) => item.attribute)
+                    .filter(Boolean);
+
+                  const rowAvailableAttributes = availableAttributes.filter(
+                    (attr: any) => !selectedInOtherRows.includes(attr.id) || attr.id === row.attribute
+                  );
+
                   const selectedAttrObj = availableAttributes.find((a) => a.id === row.attribute);
                   return (
                     <div key={idx} className="flex items-center gap-2 bg-gray-50 p-2.5 rounded-xl border border-gray-200/80">
@@ -401,7 +431,7 @@ export default function ComponentModal({
                           className="w-full px-2.5 py-1.5 bg-white text-xs font-medium text-gray-900 border border-gray-300 rounded-lg focus:border-[#e2ba2b] focus:outline-none"
                         >
                           <option value="">Select Attribute...</option>
-                          {availableAttributes.map((attr: any) => (
+                          {rowAvailableAttributes.map((attr: any) => (
                             <option key={attr.id} value={attr.id}>
                               {attr.name} {attr.unit ? `(${attr.unit})` : ''}
                             </option>
