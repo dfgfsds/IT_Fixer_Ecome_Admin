@@ -68,7 +68,7 @@ export default function PcCompatibility() {
   const buildQueryString = () => {
     const params = new URLSearchParams();
     params.append('page_size', String(itemsPerPage));
-    params.append('current_page', String(currentPage));
+    params.append('page', String(currentPage));
     if (searchTerm.trim()) params.append('search', searchTerm.trim());
     if (baseCategoryFilter) params.append('base_category_id', baseCategoryFilter);
     if (targetCategoryFilter) params.append('target_category_id', targetCategoryFilter);
@@ -314,7 +314,7 @@ export default function PcCompatibility() {
             <p className="text-xs text-gray-500 max-w-md mx-auto mt-1 mb-5">
               {searchTerm || baseCategoryFilter || targetCategoryFilter
                 ? 'No rules match your search and filter criteria. Try clearing filters.'
-                : 'Create your first compatibility rule to ensure customers only configure compatible components.'}
+                : 'Create your first compatibility rule to ensure   customers only configure compatible components.'}
             </p>
             <Button onClick={handleOpenAddModal}>
               <Plus className="w-4 h-4 mr-2" />
